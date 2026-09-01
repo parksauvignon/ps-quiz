@@ -29,6 +29,9 @@
   --olive:#999F4F; --olive-d:#68702F; --yellow:#F0CF4B; --yellow-d:#e2be34;
   --navy:#313746; --navy-d:#252a37; --gray:#6A7082; --cream:#F7F5F2; --white:#fff;
   --line:rgba(49,55,70,.12); --line-soft:rgba(49,55,70,.06);
+  /* Матеріали фасаду ПС — лише для ілюстрації сцени, не бренд-акценти */
+  --brick:#A85C48; --brick-d:#8E4A38; --ivory:#EFE7D9; --ivory-d:#DBD0BC;
+  --glass:#DADCD6; --roof:#9E5340;
   --olive-tint:rgba(153,159,79,.13);
   --shadow:0 10px 30px rgba(49,55,70,.07);
   --shadow-l:0 26px 64px rgba(49,55,70,.14);
@@ -98,7 +101,7 @@ input{caret-color:var(--olive-d)}
 @media(max-width:940px){.scene-wrap{border-radius:0;box-shadow:none;background:transparent;
     -webkit-mask-image:linear-gradient(180deg,#000 84%,transparent);mask-image:linear-gradient(180deg,#000 84%,transparent)}}
 .scene{display:block;width:100%;min-width:0;height:auto;aspect-ratio:640/440}
-@media(max-width:940px){.scene{aspect-ratio:640/352;max-height:32svh}}
+@media(max-width:940px){.scene{aspect-ratio:640/400;max-height:34svh}}
 .scene-cap{display:flex;flex-wrap:wrap;gap:6px;padding:14px 16px 16px}
 @media(max-width:940px){.scene-cap{padding:2px 16px 12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .scene-cap::-webkit-scrollbar{display:none}
@@ -235,14 +238,16 @@ input{caret-color:var(--olive-d)}
 .scene g.is-on{opacity:1;transform:none}
 .scene .draw{stroke-dasharray:var(--len,600);stroke-dashoffset:var(--len,600);transition:stroke-dashoffset var(--t-slow)}
 .scene g.is-on .draw{stroke-dashoffset:0}
-.sun{transform-box:fill-box;transform-origin:320px 470px;transform:rotate(var(--sun,0deg));transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
-.sunwrap{transform-origin:320px 470px;transform:rotate(var(--sun,0deg));transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
-.win{fill:#fff;stroke:var(--olive-d);stroke-width:1.1;opacity:.5;transition:fill var(--t-base),opacity var(--t-base)}
-.win.-lit{fill:var(--yellow);opacity:1}
+.sunwrap{transform:translate(var(--sx,0px),var(--sy,0px));transition:transform 1.3s cubic-bezier(.2,.7,.2,1)}
+.win{fill:#D3DADE;transition:fill var(--t-base)}
+.win.-lit{fill:#EFDCA0}
+.scene text{font-family:'ProbaPro',system-ui,sans-serif}
 .fl__room{fill:var(--olive-tint);stroke:var(--olive-d);stroke-width:1.2;opacity:0;transition:opacity var(--t-base)}
 .fl__room.is-on{opacity:1}
 .fur{opacity:0;transition:opacity var(--t-base)}
 .fur.is-on{opacity:1}
+.scene .sc{display:none}
+.scene[data-house="low"] .sc-low,.scene[data-house="high"] .sc-high,.scene[data-house="town"] .sc-town{display:block}
 
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -286,169 +291,352 @@ input{caret-color:var(--olive-d)}
           <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
             <stop class="sky-a" offset="0"/><stop class="sky-b" offset="1"/>
           </linearGradient>
-          <clipPath id="frame"><rect x="0" y="0" width="640" height="440" rx="0"/></clipPath>
+          <linearGradient id="lawn" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#999F4F" stop-opacity=".26"/>
+            <stop offset="1" stop-color="#999F4F" stop-opacity=".13"/>
+          </linearGradient>
+          <linearGradient id="brickg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#B0644F"/><stop offset="1" stop-color="#9E5340"/>
+          </linearGradient>
+          <pattern id="bricks" width="12" height="7" patternUnits="userSpaceOnUse">
+            <path d="M0 6.5h12M6 0v6.5M0 3h12" stroke="#7E3F30" stroke-width=".5" opacity=".36" fill="none"/>
+          </pattern>
+          <pattern id="mesh" width="6" height="6" patternUnits="userSpaceOnUse">
+            <path d="M0 0h6M0 3h6" stroke="#313746" stroke-width=".6" opacity=".28"/>
+          </pattern>
+          <clipPath id="frame"><rect x="0" y="0" width="640" height="440"/></clipPath>
         </defs>
 
         <g clip-path="url(#frame)">
           <rect x="0" y="0" width="640" height="440" fill="url(#sky)"/>
 
-          <!-- сонце / дуга дня -->
+          <!-- хмари -->
+          <g fill="#fff" opacity=".72">
+            <ellipse cx="228" cy="112" rx="34" ry="9"/><ellipse cx="252" cy="106" rx="22" ry="10"/>
+            <ellipse cx="404" cy="88" rx="26" ry="7"/><ellipse cx="420" cy="84" rx="16" ry="8"/>
+          </g>
+
+          <!-- сонце -->
           <g class="sunwrap" id="sunwrap">
-            <circle cx="320" cy="118" r="19" fill="var(--yellow)"/>
-            <circle cx="320" cy="118" r="31" fill="var(--yellow)" opacity=".18"/>
+            <circle cx="392" cy="122" r="30" fill="var(--yellow)" opacity=".16"/>
+            <circle cx="392" cy="122" r="18" fill="var(--yellow)"/>
           </g>
 
           <!-- місто вдалині (Центр) -->
           <g data-layer="city" id="l-city" opacity="0">
-            <g fill="none" stroke="var(--gray)" stroke-width="1.3" opacity=".55">
-              <path d="M16 322v-30h11v-8h9v38"/><path d="M40 322v-21h15v21"/>
-              <path d="M60 322v-38l9-9 9 9v38"/><path d="M82 322v-17h12v17"/>
+            <g fill="var(--gray)" opacity=".38">
+              <rect x="10" y="272" width="12" height="30"/><rect x="26" y="262" width="9" height="40"/>
+              <rect x="39" y="280" width="14" height="22"/><rect x="57" y="268" width="10" height="34"/>
+              <path d="M71 302v-30l7-8 7 8v30z"/><rect x="90" y="284" width="12" height="18"/>
             </g>
           </g>
 
           <!-- море -->
           <g data-layer="sea" id="l-sea" opacity="0">
-            <path class="draw" style="--len:700" d="M438 272h188" stroke="var(--olive)" stroke-width="1.4" fill="none" opacity=".5"/>
-            <path class="draw" style="--len:700" d="M452 282c9-5 18-5 27 0s18 5 27 0 18-5 27 0 18 5 27 0 18-5 27 0" stroke="var(--olive)" stroke-width="1.4" fill="none" opacity=".75"/>
-            <path class="draw" style="--len:700" d="M470 292c9-5 18-5 27 0s18 5 27 0 18-5 27 0 18 5 27 0" stroke="var(--olive)" stroke-width="1.4" fill="none" opacity=".45"/>
+            <rect x="0" y="298" width="158" height="16" fill="var(--olive)" opacity=".26"/>
+            <path class="draw" style="--len:340" d="M4 304c9-4 17-4 26 0s17 4 26 0 17-4 26 0 17 4 26 0 17-4 26 0" stroke="var(--olive)" stroke-width="1.3" fill="none" opacity=".75"/>
+            <path class="draw" style="--len:340" d="M14 311c9-4 17-4 26 0s17 4 26 0 17-4 26 0 17 4 26 0" stroke="var(--olive)" stroke-width="1.3" fill="none" opacity=".45"/>
           </g>
 
           <!-- земля -->
-          <path d="M0 330c120-14 220-14 320-8s210 6 320-6v124H0z" fill="var(--olive)" opacity=".14"/>
-          <path d="M0 330c120-14 220-14 320-8s210 6 320-6" fill="none" stroke="var(--olive)" stroke-width="1.4" opacity=".7"/>
+          <path d="M0 316c116-9 214-11 320-7s212 4 320-5v136H0z" fill="url(#lawn)"/>
+          <path d="M0 402c140-16 260-16 400-6s180 10 240 6v38H0z" fill="var(--olive)" opacity=".07"/>
+          <path d="M0 316c116-9 214-11 320-7s212 4 320-5" fill="none" stroke="var(--olive)" stroke-width="1.2" opacity=".55"/>
+          <!-- пішохідна доріжка з плитки -->
+          <path d="M118 440c48-38 120-60 214-68l120-5" fill="none" stroke="#E9E3D8" stroke-width="24" stroke-linecap="round" opacity=".9"/>
 
-          <!-- ── будинок: малоповерховий ── -->
-          <g data-layer="low" id="b-low">
-            <rect x="176" y="212" width="230" height="128" rx="3" fill="#fff" stroke="var(--navy)" stroke-width="1.5"/>
-            <path d="M170 212h242" stroke="var(--navy)" stroke-width="1.5" fill="none"/>
-            <path d="M176 246h230M176 278h230M176 310h230" stroke="var(--navy)" stroke-width="1" opacity=".22"/>
-            <g id="lowwins">
-              <rect class="win" x="188" y="222" width="26" height="16" rx="2"/><rect class="win" x="226" y="222" width="26" height="16" rx="2"/>
-              <rect class="win" x="264" y="222" width="26" height="16" rx="2"/><rect class="win" x="302" y="222" width="26" height="16" rx="2"/>
-              <rect class="win" x="340" y="222" width="26" height="16" rx="2"/><rect class="win" x="374" y="222" width="20" height="16" rx="2"/>
-              <rect class="win" x="188" y="254" width="26" height="16" rx="2"/><rect class="win" x="226" y="254" width="26" height="16" rx="2"/>
-              <rect class="win" x="264" y="254" width="26" height="16" rx="2"/><rect class="win" x="302" y="254" width="26" height="16" rx="2"/>
-              <rect class="win" x="340" y="254" width="26" height="16" rx="2"/><rect class="win" x="374" y="254" width="20" height="16" rx="2"/>
-              <rect class="win" x="188" y="286" width="26" height="16" rx="2"/><rect class="win" x="226" y="286" width="26" height="16" rx="2"/>
-              <rect class="win" x="264" y="286" width="26" height="16" rx="2"/><rect class="win" x="302" y="286" width="26" height="16" rx="2"/>
-              <rect class="win" x="340" y="286" width="26" height="16" rx="2"/><rect class="win" x="374" y="286" width="20" height="16" rx="2"/>
-              <rect class="win" x="188" y="316" width="26" height="16" rx="2"/><rect class="win" x="226" y="316" width="26" height="16" rx="2"/>
-              <rect class="win" x="302" y="316" width="26" height="16" rx="2"/><rect class="win" x="340" y="316" width="26" height="16" rx="2"/>
-              <rect class="win" x="374" y="316" width="20" height="16" rx="2"/>
+          <!-- ── ДРУГИЙ КОРПУС (глибина) ── -->
+          <g opacity=".3">
+            <rect x="486" y="238" width="116" height="88" fill="var(--ivory)"/>
+            <rect x="512" y="238" width="64" height="88" fill="url(#brickg)"/>
+            <rect x="512" y="238" width="64" height="88" fill="url(#bricks)"/>
+            <rect x="480" y="230" width="128" height="8" fill="var(--ivory)"/>
+            <rect x="496" y="216" width="96" height="15" fill="var(--ivory)"/>
+            <g fill="#DDE3E6">
+              <rect x="520" y="250" width="11" height="13"/><rect x="539" y="250" width="11" height="13"/><rect x="558" y="250" width="11" height="13"/>
+              <rect x="520" y="272" width="11" height="13"/><rect x="539" y="272" width="11" height="13"/><rect x="558" y="272" width="11" height="13"/>
+              <rect x="520" y="294" width="11" height="13"/><rect x="539" y="294" width="11" height="13"/><rect x="558" y="294" width="11" height="13"/>
             </g>
+            <rect x="486" y="310" width="116" height="16" fill="var(--ivory-d)" opacity=".6"/>
           </g>
 
-          <!-- ── будинок: багатоповерховий ── -->
+          <!-- ── ГОЛОВНИЙ БУДИНОК: малоповерховий ── -->
+          <g data-layer="low" id="b-low">
+            <ellipse cx="320" cy="354" rx="182" ry="9" fill="var(--olive)" opacity=".22"/>
+            <!-- димарі-башточки -->
+            <g fill="var(--ivory)">
+              <rect x="206" y="110" width="18" height="26"/><rect x="310" y="106" width="18" height="30"/><rect x="416" y="112" width="18" height="24"/>
+            </g>
+            <g fill="var(--ivory-d)">
+              <path d="M204 110h22v4h-22zM308 106h22v4h-22zM414 112h22v4h-22z"/>
+              <path d="M207 104h3v6h-3zM213 104h3v6h-3zM219 104h3v6h-3zM311 100h3v6h-3zM317 100h3v6h-3zM323 100h3v6h-3zM417 106h3v6h-3zM423 106h3v6h-3zM429 106h3v6h-3z"/>
+            </g>
+            <!-- аттик -->
+            <rect x="186" y="140" width="268" height="32" fill="var(--ivory)"/>
+            <rect x="182" y="133" width="276" height="8" fill="var(--ivory-d)"/>
+            <g fill="#D3DADE" opacity=".75">
+              <rect x="214" y="150" width="24" height="12"/><rect x="266" y="150" width="24" height="12"/>
+              <rect x="350" y="150" width="24" height="12"/><rect x="402" y="150" width="24" height="12"/>
+            </g>
+            <!-- карниз із виносом -->
+            <rect x="160" y="172" width="320" height="11" fill="var(--ivory)"/>
+            <rect x="160" y="180" width="320" height="4" fill="var(--ivory-d)" opacity=".7"/>
+            <!-- корпус -->
+            <rect x="168" y="183" width="304" height="123" fill="var(--ivory)"/>
+            <!-- цегляні поля -->
+            <rect x="200" y="183" width="100" height="123" fill="url(#brickg)"/>
+            <rect x="200" y="183" width="100" height="123" fill="url(#bricks)"/>
+            <rect x="340" y="183" width="100" height="123" fill="url(#brickg)"/>
+            <rect x="340" y="183" width="100" height="123" fill="url(#bricks)"/>
+            <!-- тяга під карнизом і над цоколем -->
+            <g fill="var(--ivory)" opacity=".85">
+              <rect x="200" y="183" width="100" height="4"/><rect x="340" y="183" width="100" height="4"/>
+              <rect x="200" y="301" width="100" height="5"/><rect x="340" y="301" width="100" height="5"/>
+            </g>
+            <!-- вікна: кремовий наличник + скло -->
+            <g fill="var(--ivory)">
+              <rect x="217" y="189" width="22" height="24"/><rect x="261" y="189" width="22" height="24"/><rect x="357" y="189" width="22" height="24"/><rect x="401" y="189" width="22" height="24"/>
+              <rect x="217" y="218" width="22" height="24"/><rect x="261" y="218" width="22" height="24"/><rect x="357" y="218" width="22" height="24"/><rect x="401" y="218" width="22" height="24"/>
+              <rect x="217" y="247" width="22" height="24"/><rect x="261" y="247" width="22" height="24"/><rect x="357" y="247" width="22" height="24"/><rect x="401" y="247" width="22" height="24"/>
+              <rect x="217" y="276" width="22" height="24"/><rect x="261" y="276" width="22" height="24"/><rect x="357" y="276" width="22" height="24"/><rect x="401" y="276" width="22" height="24"/>
+            </g>
+            <g class="lowwin">
+              <rect class="win" x="221" y="192" width="14" height="18"/><rect class="win" x="265" y="192" width="14" height="18"/>
+              <rect class="win" x="361" y="192" width="14" height="18"/><rect class="win" x="405" y="192" width="14" height="18"/>
+              <rect class="win" x="221" y="221" width="14" height="18"/><rect class="win" x="265" y="221" width="14" height="18"/>
+              <rect class="win" x="361" y="221" width="14" height="18"/><rect class="win" x="405" y="221" width="14" height="18"/>
+              <rect class="win" x="221" y="250" width="14" height="18"/><rect class="win" x="265" y="250" width="14" height="18"/>
+              <rect class="win" x="361" y="250" width="14" height="18"/><rect class="win" x="405" y="250" width="14" height="18"/>
+              <rect class="win" x="221" y="279" width="14" height="18"/><rect class="win" x="265" y="279" width="14" height="18"/>
+              <rect class="win" x="361" y="279" width="14" height="18"/><rect class="win" x="405" y="279" width="14" height="18"/>
+            </g>
+            <!-- кутові ризаліти з балконами -->
+            <g>
+              <rect x="172" y="183" width="24" height="123" fill="var(--ivory-d)" opacity=".5"/>
+              <rect x="444" y="183" width="24" height="123" fill="var(--ivory-d)" opacity=".5"/>
+              <g fill="var(--glass)">
+                <rect x="172" y="200" width="24" height="11"/><rect x="172" y="229" width="24" height="11"/><rect x="172" y="258" width="24" height="11"/><rect x="172" y="287" width="24" height="11"/>
+                <rect x="444" y="200" width="24" height="11"/><rect x="444" y="229" width="24" height="11"/><rect x="444" y="258" width="24" height="11"/><rect x="444" y="287" width="24" height="11"/>
+              </g>
+              <g fill="var(--ivory)">
+                <rect x="172" y="199" width="24" height="2"/><rect x="172" y="228" width="24" height="2"/><rect x="172" y="257" width="24" height="2"/><rect x="172" y="286" width="24" height="2"/>
+                <rect x="444" y="199" width="24" height="2"/><rect x="444" y="228" width="24" height="2"/><rect x="444" y="257" width="24" height="2"/><rect x="444" y="286" width="24" height="2"/>
+              </g>
+            </g>
+            <!-- центральний ризаліт: стрічка скління -->
+            <rect x="310" y="183" width="20" height="123" fill="var(--glass)"/>
+            <g stroke="var(--ivory)" stroke-width="2.5"><path d="M310 212h20M310 241h20M310 270h20M310 299h20"/></g>
+            <!-- цоколь із рустом -->
+            <rect x="168" y="306" width="304" height="46" fill="var(--ivory)"/>
+            <g stroke="var(--ivory-d)" stroke-width="1.4" opacity=".8"><path d="M168 318h304M168 330h304M168 342h304"/></g>
+            <g fill="#D3DADE" opacity=".85">
+              <rect x="218" y="320" width="24" height="15"/><rect x="262" y="320" width="24" height="15"/>
+              <rect x="358" y="320" width="24" height="15"/><rect x="402" y="320" width="24" height="15"/>
+            </g>
+            <!-- світлотінь: правий бік у півтіні -->
+            <rect x="444" y="183" width="28" height="169" fill="var(--navy)" opacity=".05"/>
+          </g>
+
+          <!-- ── багатоповерховий ── -->
           <g data-layer="high" id="b-high" opacity="0">
-            <rect x="238" y="108" width="128" height="232" rx="3" fill="#fff" stroke="var(--navy)" stroke-width="1.5"/>
-            <path d="M232 108h140" stroke="var(--navy)" stroke-width="1.5"/>
-            <g fill="none" stroke="var(--navy)" stroke-width="1" opacity=".22">
-              <path d="M238 140h128M238 172h128M238 204h128M238 236h128M238 268h128M238 300h128"/>
+            <ellipse cx="320" cy="354" rx="112" ry="8" fill="var(--olive)" opacity=".22"/>
+            <rect x="252" y="90" width="16" height="24" fill="var(--ivory)"/><rect x="372" y="90" width="16" height="24" fill="var(--ivory)"/>
+            <rect x="240" y="114" width="160" height="20" fill="var(--ivory)"/>
+            <rect x="234" y="134" width="172" height="10" fill="var(--ivory)"/>
+            <rect x="242" y="144" width="156" height="162" fill="var(--ivory)"/>
+            <rect x="272" y="144" width="96" height="162" fill="url(#brickg)"/>
+            <rect x="272" y="144" width="96" height="162" fill="url(#bricks)"/>
+            <g fill="var(--ivory)">
+              <rect x="282" y="152" width="24" height="22"/><rect x="334" y="152" width="24" height="22"/>
+              <rect x="282" y="182" width="24" height="22"/><rect x="334" y="182" width="24" height="22"/>
+              <rect x="282" y="212" width="24" height="22"/><rect x="334" y="212" width="24" height="22"/>
+              <rect x="282" y="242" width="24" height="22"/><rect x="334" y="242" width="24" height="22"/>
+              <rect x="282" y="272" width="24" height="22"/><rect x="334" y="272" width="24" height="22"/>
             </g>
             <g>
-              <rect class="win" x="250" y="118" width="24" height="14" rx="2"/><rect class="win" x="288" y="118" width="24" height="14" rx="2"/><rect class="win" x="326" y="118" width="24" height="14" rx="2"/>
-              <rect class="win" x="250" y="150" width="24" height="14" rx="2"/><rect class="win" x="288" y="150" width="24" height="14" rx="2"/><rect class="win" x="326" y="150" width="24" height="14" rx="2"/>
-              <rect class="win" x="250" y="182" width="24" height="14" rx="2"/><rect class="win" x="288" y="182" width="24" height="14" rx="2"/><rect class="win" x="326" y="182" width="24" height="14" rx="2"/>
-              <rect class="win" x="250" y="214" width="24" height="14" rx="2"/><rect class="win" x="288" y="214" width="24" height="14" rx="2"/><rect class="win" x="326" y="214" width="24" height="14" rx="2"/>
-              <rect class="win" x="250" y="246" width="24" height="14" rx="2"/><rect class="win" x="288" y="246" width="24" height="14" rx="2"/><rect class="win" x="326" y="246" width="24" height="14" rx="2"/>
-              <rect class="win" x="250" y="278" width="24" height="14" rx="2"/><rect class="win" x="288" y="278" width="24" height="14" rx="2"/><rect class="win" x="326" y="278" width="24" height="14" rx="2"/>
-              <rect class="win" x="250" y="310" width="24" height="14" rx="2"/><rect class="win" x="288" y="310" width="24" height="14" rx="2"/><rect class="win" x="326" y="310" width="24" height="14" rx="2"/>
+              <rect class="win" x="286" y="155" width="16" height="16"/><rect class="win" x="338" y="155" width="16" height="16"/>
+              <rect class="win" x="286" y="185" width="16" height="16"/><rect class="win" x="338" y="185" width="16" height="16"/>
+              <rect class="win" x="286" y="215" width="16" height="16"/><rect class="win" x="338" y="215" width="16" height="16"/>
+              <rect class="win" x="286" y="245" width="16" height="16"/><rect class="win" x="338" y="245" width="16" height="16"/>
+              <rect class="win" x="286" y="275" width="16" height="16"/><rect class="win" x="338" y="275" width="16" height="16"/>
             </g>
+            <rect x="250" y="144" width="18" height="162" fill="var(--ivory-d)" opacity=".55"/>
+            <rect x="372" y="144" width="18" height="162" fill="var(--ivory-d)" opacity=".55"/>
+            <g fill="var(--glass)">
+              <rect x="250" y="160" width="18" height="9"/><rect x="250" y="190" width="18" height="9"/><rect x="250" y="220" width="18" height="9"/><rect x="250" y="250" width="18" height="9"/><rect x="250" y="280" width="18" height="9"/>
+              <rect x="372" y="160" width="18" height="9"/><rect x="372" y="190" width="18" height="9"/><rect x="372" y="220" width="18" height="9"/><rect x="372" y="250" width="18" height="9"/><rect x="372" y="280" width="18" height="9"/>
+            </g>
+            <rect x="242" y="306" width="156" height="46" fill="var(--ivory)"/>
+            <g stroke="var(--ivory-d)" stroke-width="1.4" opacity=".85"><path d="M242 318h156M242 330h156M242 342h156"/></g>
           </g>
 
-          <!-- ── будинок: таунхаус ── -->
+          <!-- ── таунхаус ── -->
           <g data-layer="town" id="b-town" opacity="0">
-            <path d="M186 250l52-38 52 38v90h-104z" fill="#fff" stroke="var(--navy)" stroke-width="1.5" stroke-linejoin="round"/>
-            <path d="M290 250l52-38 52 38v90h-104z" fill="#fff" stroke="var(--navy)" stroke-width="1.5" stroke-linejoin="round"/>
-            <rect class="win" x="204" y="262" width="26" height="18" rx="2"/><rect class="win" x="246" y="262" width="26" height="18" rx="2"/>
-            <rect class="win" x="308" y="262" width="26" height="18" rx="2"/><rect class="win" x="350" y="262" width="26" height="18" rx="2"/>
-            <rect x="204" y="300" width="26" height="40" rx="2" fill="none" stroke="var(--navy)" stroke-width="1.2" opacity=".5"/>
-            <rect x="350" y="300" width="26" height="40" rx="2" fill="none" stroke="var(--navy)" stroke-width="1.2" opacity=".5"/>
+            <ellipse cx="312" cy="354" rx="140" ry="8" fill="var(--olive)" opacity=".22"/>
+            <g>
+              <path d="M186 240l60-42 60 42z" fill="var(--roof)"/>
+              <path d="M180 240h132v10H180z" fill="var(--ivory-d)"/>
+              <rect x="192" y="250" width="108" height="102" fill="var(--ivory)"/>
+              <rect x="210" y="250" width="72" height="60" fill="url(#brickg)"/><rect x="210" y="250" width="72" height="60" fill="url(#bricks)"/>
+              <g fill="var(--ivory)"><rect x="218" y="262" width="24" height="24"/><rect x="252" y="262" width="24" height="24"/></g>
+              <rect class="win" x="222" y="265" width="16" height="18"/><rect class="win" x="256" y="265" width="16" height="18"/>
+              <rect class="win" x="204" y="318" width="30" height="22"/>
+              <rect x="256" y="312" width="26" height="40" fill="var(--navy)" opacity=".75"/>
+            </g>
+            <g>
+              <path d="M318 240l60-42 60 42z" fill="var(--roof)"/>
+              <path d="M312 240h132v10H312z" fill="var(--ivory-d)"/>
+              <rect x="324" y="250" width="108" height="102" fill="var(--ivory)"/>
+              <rect x="342" y="250" width="72" height="60" fill="url(#brickg)"/><rect x="342" y="250" width="72" height="60" fill="url(#bricks)"/>
+              <g fill="var(--ivory)"><rect x="350" y="262" width="24" height="24"/><rect x="384" y="262" width="24" height="24"/></g>
+              <rect class="win" x="354" y="265" width="16" height="18"/><rect class="win" x="388" y="265" width="16" height="18"/>
+              <rect class="win" x="390" y="318" width="30" height="22"/>
+              <rect x="342" y="312" width="26" height="40" fill="var(--navy)" opacity=".75"/>
+            </g>
           </g>
 
           <!-- вхідна група (зданий будинок) -->
           <g data-layer="entrance" id="l-entrance" opacity="0">
-            <rect x="260" y="306" width="34" height="34" rx="2" fill="var(--navy)" opacity=".82"/>
-            <path d="M250 306h54" stroke="var(--navy)" stroke-width="2.4" stroke-linecap="round"/>
-            <circle cx="286" cy="324" r="1.8" fill="var(--yellow)"/>
+            <rect x="304" y="314" width="32" height="38" fill="var(--navy)" opacity=".78"/>
+            <rect x="298" y="308" width="44" height="7" fill="var(--ivory-d)"/>
+            <circle cx="331" cy="334" r="1.8" fill="var(--yellow)"/>
+            <path d="M306 352h28" stroke="var(--ivory-d)" stroke-width="3"/>
           </g>
 
-          <!-- кран (будується) -->
+          <!-- будівельна сітка + кран (будується) -->
+          <g data-layer="scaffold" id="l-scaffold" opacity="0">
+            <g class="sc sc-low"><rect x="340" y="183" width="100" height="123" fill="url(#mesh)"/><rect x="340" y="183" width="100" height="123" fill="none" stroke="var(--navy)" stroke-width="1" opacity=".3"/></g>
+            <g class="sc sc-high"><rect x="272" y="144" width="96" height="162" fill="url(#mesh)"/><rect x="272" y="144" width="96" height="162" fill="none" stroke="var(--navy)" stroke-width="1" opacity=".3"/></g>
+            <g class="sc sc-town"><rect x="342" y="250" width="72" height="60" fill="url(#mesh)"/><rect x="342" y="250" width="72" height="60" fill="none" stroke="var(--navy)" stroke-width="1" opacity=".3"/></g>
+          </g>
           <g data-layer="crane" id="l-crane" opacity="0" fill="none" stroke="var(--navy)" stroke-width="1.6" stroke-linecap="round">
-            <path d="M150 340V124"/><path d="M140 340h20"/>
-            <path d="M100 124h146"/><path d="M150 124l-44 10M150 124l88 16"/>
-            <path d="M204 124v22"/><rect x="196" y="146" width="16" height="12" rx="1.5" fill="#fff"/>
-            <path d="M150 144l-6 8h12z" fill="#fff"/>
+            <path d="M486 352V138"/><path d="M476 352h20"/><path d="M480 300h12M480 250h12M480 200h12"/>
+            <path d="M420 138h150"/><path d="M486 138l-52 10M486 138l76 12"/>
+            <path d="M540 138v22"/><rect x="532" y="160" width="16" height="12" rx="1.5" fill="var(--cream)"/>
+            <path d="M486 158l-6 8h12z" fill="var(--cream)"/>
+          </g>
+
+          <!-- ставок із містком -->
+          <g data-layer="pond" id="l-pond" opacity="0">
+            <ellipse cx="92" cy="360" rx="74" ry="20" fill="var(--olive)" opacity=".3"/>
+            <ellipse cx="92" cy="360" rx="74" ry="20" fill="none" stroke="var(--olive)" stroke-width="1.2" opacity=".55"/>
+            <path d="M66 362c8-4 16-4 24 0s16 4 24 0" stroke="#fff" stroke-width="1.2" fill="none" opacity=".7"/>
+            <g stroke="#9E7B5A" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".85">
+              <path d="M52 358c14-14 42-14 56 0"/><path d="M52 364c14-14 42-14 56 0"/>
+              <path d="M60 352v8M74 348v10M88 348v10M102 352v8"/>
+            </g>
           </g>
 
           <!-- дерева -->
           <g data-layer="trees" id="l-trees" class="is-on">
-            <g fill="var(--olive)">
-              <circle cx="86" cy="286" r="26" opacity=".85"/><rect x="84" y="304" width="3" height="34" fill="var(--navy)" opacity=".55"/>
-              <circle cx="128" cy="302" r="18" opacity=".65"/><rect x="126" y="314" width="2.6" height="26" fill="var(--navy)" opacity=".5"/>
-              <circle cx="566" cy="316" r="20" opacity=".8"/><rect x="564" y="328" width="3" height="26" fill="var(--navy)" opacity=".55"/>
-              <circle cx="608" cy="328" r="13" opacity=".6"/><rect x="606" y="336" width="2.6" height="18" fill="var(--navy)" opacity=".5"/>
+            <!-- верба біля ставка -->
+            <g>
+              <path d="M40 372v-40" stroke="#7A5C43" stroke-width="3" fill="none"/>
+              <circle cx="40" cy="322" r="22" fill="var(--olive)" opacity=".8"/>
+              <circle cx="26" cy="332" r="13" fill="var(--olive)" opacity=".6"/>
+              <circle cx="54" cy="332" r="13" fill="var(--olive)" opacity=".6"/>
+              <g stroke="var(--olive)" stroke-width="1.2" opacity=".65" fill="none">
+                <path d="M24 330c-2 12-1 20 2 28M34 336c-2 12-2 20 0 28M48 336c2 12 2 20 0 26M58 330c3 12 2 20 0 26"/>
+              </g>
+            </g>
+            <ellipse cx="148" cy="357" rx="26" ry="6" fill="var(--olive)" opacity=".22"/>
+            <ellipse cx="470" cy="349" rx="21" ry="5" fill="var(--olive)" opacity=".22"/>
+            <ellipse cx="614" cy="347" rx="16" ry="4" fill="var(--olive)" opacity=".2"/>
+            <!-- клен великий -->
+            <g>
+              <path d="M148 356v-56" stroke="#7A5C43" stroke-width="4" fill="none"/>
+              <path d="M148 322l-14-12M148 330l16-14" stroke="#7A5C43" stroke-width="2.4" fill="none"/>
+              <circle cx="148" cy="286" r="30" fill="var(--olive)" opacity=".85"/>
+              <circle cx="124" cy="298" r="19" fill="var(--olive)" opacity=".62"/>
+              <circle cx="172" cy="298" r="19" fill="var(--olive)" opacity=".62"/>
+              <circle cx="150" cy="270" r="15" fill="var(--olive)" opacity=".45"/>
+            </g>
+            <!-- клен справа -->
+            <g>
+              <path d="M470 348v-44" stroke="#7A5C43" stroke-width="3.4" fill="none"/>
+              <circle cx="470" cy="292" r="24" fill="var(--olive)" opacity=".85"/>
+              <circle cx="452" cy="302" r="15" fill="var(--olive)" opacity=".6"/>
+              <circle cx="488" cy="302" r="15" fill="var(--olive)" opacity=".6"/>
+            </g>
+            <g>
+              <path d="M614 346v-34" stroke="#7A5C43" stroke-width="3" fill="none"/>
+              <circle cx="614" cy="302" r="19" fill="var(--olive)" opacity=".75"/>
+              <circle cx="598" cy="310" r="12" fill="var(--olive)" opacity=".55"/>
+            </g>
+            <!-- кущі вздовж доріжки -->
+            <g fill="var(--olive)" opacity=".5">
+              <ellipse cx="196" cy="408" rx="17" ry="10"/><ellipse cx="226" cy="400" rx="12" ry="8"/>
+              <ellipse cx="436" cy="344" rx="15" ry="9"/><ellipse cx="458" cy="340" rx="10" ry="7"/>
             </g>
           </g>
 
-          <!-- ставок -->
-          <g data-layer="pond" id="l-pond" opacity="0">
-            <ellipse cx="98" cy="400" rx="58" ry="17" fill="var(--olive)" opacity=".26"/>
-            <ellipse cx="98" cy="400" rx="58" ry="17" fill="none" stroke="var(--olive)" stroke-width="1.3" opacity=".6"/>
-            <path d="M78 400c7-4 14-4 21 0s14 4 21 0" stroke="#fff" stroke-width="1.3" fill="none" opacity=".8"/>
+          <!-- алея: лавка + дерева вздовж доріжки -->
+          <g data-layer="alley" id="l-alley" opacity="0">
+            <g>
+              <path d="M262 388v-24" stroke="#7A5C43" stroke-width="2.6" fill="none"/><circle cx="262" cy="356" r="15" fill="var(--olive)" opacity=".7"/>
+              <path d="M318 376v-22" stroke="#7A5C43" stroke-width="2.4" fill="none"/><circle cx="318" cy="346" r="13" fill="var(--olive)" opacity=".7"/>
+            </g>
+            <g stroke="var(--navy)" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".8">
+              <path d="M212 410h34M214 410v7M244 410v7M212 404h34M215 398h28"/>
+            </g>
+            <g stroke="var(--navy)" stroke-width="1.4" fill="none" opacity=".55">
+              <path d="M356 366v-26"/><path d="M350 340h12"/>
+            </g>
           </g>
 
           <!-- майданчик -->
-          <g data-layer="play" id="l-play" opacity="0" fill="none" stroke="var(--navy)" stroke-width="1.5" stroke-linecap="round">
-            <path d="M470 400v-38l22-16 22 16v38"/>
-            <path d="M492 346v14"/><path d="M480 360v22M504 360v22"/>
-            <rect x="474" y="382" width="12" height="6" rx="1.5" fill="var(--yellow)" stroke="none"/>
-            <rect x="498" y="382" width="12" height="6" rx="1.5" fill="var(--yellow)" stroke="none"/>
-            <path d="M528 400v-26h26l-26 26z" fill="var(--olive)" opacity=".55" stroke="none"/>
-            <path d="M528 400v-26h26" stroke="var(--navy)"/>
-          </g>
-
-          <!-- алея -->
-          <g data-layer="alley" id="l-alley" opacity="0">
-            <path class="draw" style="--len:420" d="M210 432c34-32 88-44 138-44" stroke="var(--olive)" stroke-width="9" fill="none" opacity=".28" stroke-linecap="round"/>
-            <g fill="var(--olive)" opacity=".7">
-              <circle cx="232" cy="392" r="11"/><circle cx="268" cy="380" r="11"/><circle cx="306" cy="374" r="11"/>
+          <g data-layer="play" id="l-play" opacity="0">
+            <ellipse cx="500" cy="412" rx="66" ry="16" fill="var(--yellow)" opacity=".2"/>
+            <g fill="none" stroke="var(--navy)" stroke-width="1.6" stroke-linecap="round">
+              <path d="M462 412v-34l22-14 22 14v34"/><path d="M484 364v12"/><path d="M472 376v20M496 376v20"/>
             </g>
-            <path d="M330 398h30M334 398v8M356 398v8" stroke="var(--navy)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <rect x="466" y="396" width="12" height="5" rx="1.5" fill="var(--yellow)"/>
+            <rect x="490" y="396" width="12" height="5" rx="1.5" fill="var(--yellow)"/>
+            <path d="M520 412v-26h28z" fill="var(--yellow)" opacity=".7"/>
+            <path d="M520 412v-26h28" stroke="var(--navy)" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+            <path d="M548 386v26" stroke="var(--navy)" stroke-width="1.6"/>
           </g>
 
           <!-- паркінг -->
           <g data-layer="parking" id="l-parking" opacity="0">
-            <path d="M404 424h150M412 404h30M452 404h30M492 404h30" stroke="var(--navy)" stroke-width="1.3" opacity=".3" fill="none"/>
-            <g transform="translate(404 384)">
-              <path d="M4 22h44v-9l-7-11H11L4 13z" fill="#fff" stroke="var(--navy)" stroke-width="1.5" stroke-linejoin="round"/>
-              <path d="M11 13h30" stroke="var(--navy)" stroke-width="1.2"/>
-              <circle cx="14" cy="22" r="4" fill="var(--navy)"/><circle cx="38" cy="22" r="4" fill="var(--navy)"/>
+            <path d="M30 430h160M46 406h30M86 406h30M126 406h30" stroke="var(--navy)" stroke-width="1.3" opacity=".38" fill="none"/>
+            <g transform="translate(44 382)">
+              <ellipse cx="26" cy="26" rx="30" ry="5" fill="var(--navy)" opacity=".14"/>
+              <path d="M2 22h48v-9l-8-12H12L2 13z" fill="var(--cream)" stroke="var(--navy)" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M12 13h28" stroke="var(--navy)" stroke-width="1.2"/>
+              <circle cx="14" cy="22" r="4.5" fill="var(--navy)"/><circle cx="38" cy="22" r="4.5" fill="var(--navy)"/>
             </g>
           </g>
 
           <!-- охорона -->
-          <g data-layer="sec" id="l-sec" opacity="0" fill="none" stroke="var(--navy)" stroke-width="1.5" stroke-linecap="round">
-            <path d="M596 420v-44"/><path d="M596 384h-52" stroke="var(--yellow-d)" stroke-width="4"/>
-            <path d="M544 384h-8"/>
-            <path d="M612 344v-16h-14v16" /><circle cx="605" cy="336" r="2.4" fill="var(--navy)" stroke="none"/>
+          <g data-layer="sec" id="l-sec" opacity="0">
+            <g stroke="var(--navy)" stroke-width="1.5" fill="none" stroke-linecap="round">
+              <path d="M600 420v-38"/><path d="M592 382h16"/>
+              <path d="M596 388h-56" stroke="var(--yellow-d)" stroke-width="5"/>
+              <path d="M540 388h-10"/>
+              <path d="M628 356v-14h-16v14"/>
+            </g>
+            <circle cx="620" cy="350" r="2.6" fill="var(--navy)"/>
+            <g stroke="var(--navy)" stroke-width="1.2" opacity=".4" fill="none">
+              <path d="M528 404v-24M540 404v-24M552 404v-24M564 404v-24M576 404v-24"/><path d="M524 380h56"/>
+            </g>
           </g>
 
           <!-- виноска: ваша квартира -->
           <g data-layer="flat" id="l-flat" opacity="0">
-            <path d="M406 176h44" stroke="var(--navy)" stroke-width="1" opacity=".3"/>
-            <rect x="450" y="128" width="168" height="112" rx="12" fill="#fff" stroke="var(--navy)" stroke-width="1.3"/>
-            <rect class="fl__room" id="fr1" x="466" y="144" width="58" height="52" rx="3"/>
-            <rect class="fl__room" id="fr2" x="530" y="144" width="72" height="24" rx="3"/>
-            <rect class="fl__room" id="fr3" x="530" y="174" width="72" height="22" rx="3"/>
+            <path d="M170 200h-6" stroke="var(--navy)" stroke-width="1" opacity=".28" stroke-dasharray="3 3"/>
+            <rect x="14" y="124" width="156" height="116" rx="12" fill="#fff" stroke="var(--line)" stroke-width="1"/>
+            <rect class="fl__room" id="fr1" x="30" y="140" width="54" height="54" rx="3"/>
+            <rect class="fl__room" id="fr2" x="90" y="140" width="64" height="25" rx="3"/>
+            <rect class="fl__room" id="fr3" x="90" y="171" width="64" height="23" rx="3"/>
             <g class="fur" id="fur1" stroke="var(--olive-d)" stroke-width="1.2" fill="none">
-              <rect x="474" y="176" width="30" height="12" rx="2"/><circle cx="512" cy="182" r="4"/>
+              <rect x="38" y="172" width="28" height="12" rx="2"/><circle cx="74" cy="178" r="4"/>
             </g>
             <g class="fur" id="fur2" stroke="var(--olive-d)" stroke-width="1.2" fill="none">
-              <rect x="538" y="150" width="26" height="12" rx="2"/><path d="M574 150v12M580 150v12"/>
-              <rect x="538" y="178" width="18" height="14" rx="2"/>
+              <rect x="97" y="146" width="24" height="12" rx="2"/><path d="M130 146v12M136 146v12"/>
+              <rect x="97" y="175" width="18" height="14" rx="2"/>
             </g>
-            <text id="flabel" x="466" y="222" font-family="ProbaPro,sans-serif" font-size="13" font-weight="500" fill="var(--navy)">Ваша квартира</text>
+            <text id="flabel" x="30" y="222" font-size="13" font-weight="500" fill="var(--navy)">Ваша квартира</text>
           </g>
         </g>
       </svg>
@@ -580,7 +768,7 @@ function paint(){
   ['low','high','town'].forEach(h=>document.getElementById('b-'+h).classList.toggle('is-on',S.house===h));
   on('l-city',S.city); on('l-sea',S.sea); on('l-play',S.play); on('l-alley',S.alley);
   on('l-pond',S.pond); on('l-parking',S.parking); on('l-sec',S.sec);
-  on('l-crane',S.stage==='build'); on('l-entrance',S.stage==='ready');
+  on('l-crane',S.stage==='build'); on('l-scaffold',S.stage==='build'); on('l-entrance',S.stage==='ready');
   on('l-flat',!!S.rooms);
   const r=+S.rooms||0;
   document.getElementById('fr1').classList.toggle('is-on',r>=1);
@@ -588,14 +776,15 @@ function paint(){
   document.getElementById('fr3').classList.toggle('is-on',r>=3);
   document.getElementById('fur1').classList.toggle('is-on',S.fit==='repair'||S.fit==='full');
   document.getElementById('fur2').classList.toggle('is-on',S.fit==='full');
-  const lbl={'1':'Однокімнатна','2':'Двокімнатна','3':'Трикімнатна'}[S.rooms]||'Ваша квартира';
+  const lbl={'1':'Однокімнатна · від 43,2 м²','2':'Двокімнатна · від 64,9 м²','3':'Трикімнатна · від 90,5 м²'}[S.rooms]||'Ваша квартира';
   document.getElementById('flabel').textContent=lbl;
   // світло у вікнах: зданий будинок — тепле, будується — тільки контури
-  const LIT=[1,0,1,1,0,0, 0,1,1,0,1,1, 1,1,0,1,0,1, 0,1,1,0,1];
+  const LIT=[0,1,0,0, 1,0,0,1, 0,0,1,0, 1,0,0,1];
   document.querySelectorAll('.win').forEach((w,i)=>w.classList.toggle('-lit', S.stage==='ready' && !!LIT[i%LIT.length]));
   // сонце по дузі + температура неба
-  const ang=[-50,-38,-26,-13,0][S.time] ?? 0;
-  document.getElementById('sunwrap').style.setProperty('--sun',ang+'deg');
+  const SUN=[[-96,26],[-48,-2],[0,-18],[52,-6],[104,22]][S.time]||[0,-18];
+  const sw=document.getElementById('sunwrap');
+  sw.style.setProperty('--sx',SUN[0]+'px'); sw.style.setProperty('--sy',SUN[1]+'px');
   const warm=[['#e9eef3','#F7F5F2'],['#eef1f4','#F7F5F2'],['#eef1f0','#F7F5F2'],['#f4efe6','#F7F5F2'],['#f7ead9','#F7F5F2']][S.time]||['#eef1f4','#F7F5F2'];
   document.documentElement.style.setProperty('--sky-a',warm[0]);
   document.documentElement.style.setProperty('--sky-b',warm[1]);
@@ -663,7 +852,7 @@ function pick(q,i){
     Object.assign(S,o.s||{});
     if(on && o.s) Object.keys(o.s).forEach(k=>{ if(typeof S[k]==='number') S[k]=0; });
     card.querySelectorAll('.opt')[i].classList.toggle('is-on',!on);
-    document.getElementById('next').disabled = !ans[q.id].length;
+    const nb=document.getElementById('next'); if(nb) nb.disabled = !ans[q.id].length;
     paint(); renderChips(); save();
     track('quiz_answer',{step:step+1,question:q.id,value:o.v,multi:true,ms:Date.now()-stepAt});
   } else {
