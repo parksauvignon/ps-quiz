@@ -128,9 +128,11 @@ input{caret-color:var(--olive-d)}
 .wish__t{position:relative;margin:0;padding:11px 14px;border-radius:14px 14px 14px 4px;
   background:var(--olive-tint);color:var(--navy);font-size:var(--fs-sm);line-height:1.5;text-wrap:pretty}
 .wish__t.is-new{animation:wishIn .42s cubic-bezier(.2,.7,.2,1) both}
-.wish__e{font:inherit;color:var(--olive-d);font-weight:500;padding:0;
-  border-bottom:1px dashed rgba(104,112,47,.5);transition:color var(--t-fast),border-color var(--t-fast)}
-.wish__e:hover{color:var(--navy);border-bottom-color:var(--navy)}
+.wish__e{font:inherit;color:var(--olive-d);font-weight:500;padding:0;text-align:left;
+  transition:color var(--t-fast)}
+.wish__e span{border-bottom:1px dashed rgba(104,112,47,.5);transition:border-color var(--t-fast)}
+.wish__e:hover{color:var(--navy)}
+.wish__e:hover span{border-bottom-color:var(--navy)}
 @keyframes wishIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .step-no{font-size:var(--fs-xs);font-weight:500;letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray)}
 .q{margin-top:10px;font-size:var(--fs-h1);font-weight:500;line-height:var(--lh-head);letter-spacing:var(--tr-head);max-width:17ch;text-wrap:balance}
@@ -1093,7 +1095,14 @@ function renderWish(){
   const box=document.getElementById('wish'); if(!box) return;
   const any=Object.keys(ans).some(k=>k!=='way'&&(Array.isArray(ans[k])?ans[k].length:ans[k]));
   box.hidden=!any; if(!any) return;
-  const html=wishParts().map(p=>p.id?`<button type="button" class="wish__e" data-i="${p.i}">${esc(p.txt)}</button>`:esc(p.txt).replace(/^([.,])/,'\u2060$1')).join('');
+  const parts=wishParts(); let html='';
+  parts.forEach((p,i)=>{
+    if(!p.id){ if(!p.used) html+=esc(p.txt); return; }
+    const nx=parts[i+1];
+    let tail='';
+    if(nx && !nx.id && /^[.,]/.test(nx.txt)){ tail=nx.txt[0]; nx.txt=nx.txt.slice(1); }
+    html+=`<button type="button" class="wish__e" data-i="${p.i}"><span>${esc(p.txt)}</span>${esc(tail)}</button>`;
+  });
   const t=box.querySelector('.wish__t');
   if(t.dataset.h!==html){ t.dataset.h=html; t.innerHTML=html; t.classList.remove('is-new'); void t.offsetWidth; t.classList.add('is-new'); }
 }
