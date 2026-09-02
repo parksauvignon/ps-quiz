@@ -143,8 +143,9 @@ input{caret-color:var(--olive-d)}
 .opt__k{flex:none;width:20px;text-align:center;font-size:var(--fs-xs);color:var(--gray);opacity:.5}
 @media(max-width:940px){.opt__k{display:none}}
 
-.hint{display:flex;gap:11px;margin-top:20px;max-width:56ch;font-size:var(--fs-sm);color:var(--gray);line-height:1.55}
-.hint svg{flex:none;width:17px;height:17px;margin-top:2px;color:var(--olive)}
+.hint{display:flex;gap:12px;margin-top:20px;max-width:56ch;padding:14px 16px;border-radius:14px;
+  background:var(--olive-tint);color:var(--navy);font-size:var(--fs-sm);line-height:1.55}
+.hint svg{flex:none;width:17px;height:17px;margin-top:2px;color:var(--olive-d)}
 
 .nav{display:flex;align-items:center;gap:12px;margin-top:26px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;
@@ -242,10 +243,7 @@ input{caret-color:var(--olive-d)}
 .win{fill:#D3DADE;transition:fill var(--t-base)}
 .win.-lit{fill:#EFDCA0}
 .scene text{font-family:'ProbaPro',system-ui,sans-serif}
-.fl__room{fill:var(--olive-tint);stroke:var(--olive-d);stroke-width:1.2;opacity:0;transition:opacity var(--t-base)}
-.fl__room.is-on{opacity:1}
-.fur{opacity:0;transition:opacity var(--t-base)}
-.fur.is-on{opacity:1}
+.scene #flatplan{transition:opacity var(--t-fast)}
 .scene .sc{display:none}
 .scene[data-house="low"] .sc-low,.scene[data-house="high"] .sc-high,.scene[data-house="town"] .sc-town{display:block}
 
@@ -296,7 +294,7 @@ input{caret-color:var(--olive-d)}
             <stop offset="1" stop-color="#999F4F" stop-opacity=".13"/>
           </linearGradient>
           <linearGradient id="brickg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#B0644F"/><stop offset="1" stop-color="#9E5340"/>
+            <stop offset="0" stop-color="#BC7261"/><stop offset="1" stop-color="#A85D4A"/>
           </linearGradient>
           <pattern id="bricks" width="12" height="7" patternUnits="userSpaceOnUse">
             <path d="M0 6.5h12M6 0v6.5M0 3h12" stroke="#7E3F30" stroke-width=".5" opacity=".36" fill="none"/>
@@ -347,94 +345,230 @@ input{caret-color:var(--olive-d)}
 
           <!-- ── ДРУГИЙ КОРПУС (глибина) ── -->
           <g opacity=".3">
-            <rect x="486" y="238" width="116" height="88" fill="var(--ivory)"/>
-            <rect x="512" y="238" width="64" height="88" fill="url(#brickg)"/>
+            <rect x="524" y="238" width="112" height="88" fill="var(--ivory)"/>
+            <rect x="548" y="238" width="60" height="88" fill="url(#brickg)"/>
             <rect x="512" y="238" width="64" height="88" fill="url(#bricks)"/>
-            <rect x="480" y="230" width="128" height="8" fill="var(--ivory)"/>
-            <rect x="496" y="216" width="96" height="15" fill="var(--ivory)"/>
+            <rect x="518" y="230" width="124" height="8" fill="var(--ivory)"/>
+            <rect x="534" y="216" width="92" height="15" fill="var(--ivory)"/>
             <g fill="#DDE3E6">
-              <rect x="520" y="250" width="11" height="13"/><rect x="539" y="250" width="11" height="13"/><rect x="558" y="250" width="11" height="13"/>
-              <rect x="520" y="272" width="11" height="13"/><rect x="539" y="272" width="11" height="13"/><rect x="558" y="272" width="11" height="13"/>
-              <rect x="520" y="294" width="11" height="13"/><rect x="539" y="294" width="11" height="13"/><rect x="558" y="294" width="11" height="13"/>
+              <rect x="556" y="250" width="11" height="13"/><rect x="575" y="250" width="11" height="13"/><rect x="594" y="250" width="11" height="13"/>
+              <rect x="556" y="272" width="11" height="13"/><rect x="575" y="272" width="11" height="13"/><rect x="594" y="272" width="11" height="13"/>
+              <rect x="556" y="294" width="11" height="13"/><rect x="575" y="294" width="11" height="13"/><rect x="558" y="294" width="11" height="13"/>
             </g>
-            <rect x="486" y="310" width="116" height="16" fill="var(--ivory-d)" opacity=".6"/>
+            <rect x="524" y="310" width="112" height="16" fill="var(--ivory-d)" opacity=".6"/>
           </g>
 
           <!-- ── ГОЛОВНИЙ БУДИНОК: малоповерховий ── -->
           <g data-layer="low" id="b-low">
-            <ellipse cx="320" cy="354" rx="182" ry="9" fill="var(--olive)" opacity=".22"/>
-            <!-- димарі-башточки -->
+            <ellipse cx="346" cy="354" rx="192" ry="9" fill="var(--olive)" opacity=".22"/>
             <g fill="var(--ivory)">
-              <rect x="206" y="110" width="18" height="26"/><rect x="310" y="106" width="18" height="30"/><rect x="416" y="112" width="18" height="24"/>
+              <rect x="200" y="152" width="17" height="27"/><rect x="276" y="148" width="17" height="31"/>
+              <rect x="392" y="148" width="17" height="31"/><rect x="482" y="152" width="17" height="27"/>
             </g>
             <g fill="var(--ivory-d)">
-              <path d="M204 110h22v4h-22zM308 106h22v4h-22zM414 112h22v4h-22z"/>
-              <path d="M207 104h3v6h-3zM213 104h3v6h-3zM219 104h3v6h-3zM311 100h3v6h-3zM317 100h3v6h-3zM323 100h3v6h-3zM417 106h3v6h-3zM423 106h3v6h-3zM429 106h3v6h-3z"/>
+              <path d="M198 152h21v4h-21zM274 148h21v4h-21zM390 148h21v4h-21zM480 152h21v4h-21z"/>
+              <path d="M201 146h3v6h-3zM207 146h3v6h-3zM213 146h3v6h-3zM277 142h3v6h-3zM283 142h3v6h-3zM289 142h3v6h-3zM393 142h3v6h-3zM399 142h3v6h-3zM405 142h3v6h-3zM483 146h3v6h-3zM489 146h3v6h-3zM495 146h3v6h-3z"/>
             </g>
-            <!-- аттик -->
-            <rect x="186" y="140" width="268" height="32" fill="var(--ivory)"/>
-            <rect x="182" y="133" width="276" height="8" fill="var(--ivory-d)"/>
-            <g fill="#D3DADE" opacity=".75">
-              <rect x="214" y="150" width="24" height="12"/><rect x="266" y="150" width="24" height="12"/>
-              <rect x="350" y="150" width="24" height="12"/><rect x="402" y="150" width="24" height="12"/>
-            </g>
-            <!-- карниз із виносом -->
-            <rect x="160" y="172" width="320" height="11" fill="var(--ivory)"/>
-            <rect x="160" y="180" width="320" height="4" fill="var(--ivory-d)" opacity=".7"/>
-            <!-- корпус -->
-            <rect x="168" y="183" width="304" height="123" fill="var(--ivory)"/>
+            <rect x="186" y="178" width="320" height="9" fill="var(--ivory-d)"/>
+            <rect x="178" y="186" width="336" height="11" fill="var(--ivory)"/>
+            <rect x="178" y="194" width="336" height="4" fill="var(--ivory-d)" opacity=".65"/>
             <!-- цегляні поля -->
-            <rect x="200" y="183" width="100" height="123" fill="url(#brickg)"/>
-            <rect x="200" y="183" width="100" height="123" fill="url(#bricks)"/>
-            <rect x="340" y="183" width="100" height="123" fill="url(#brickg)"/>
-            <rect x="340" y="183" width="100" height="123" fill="url(#bricks)"/>
-            <!-- тяга під карнизом і над цоколем -->
-            <g fill="var(--ivory)" opacity=".85">
-              <rect x="200" y="183" width="100" height="4"/><rect x="340" y="183" width="100" height="4"/>
-              <rect x="200" y="301" width="100" height="5"/><rect x="340" y="301" width="100" height="5"/>
+            <rect x="186" y="197" width="320" height="130" fill="var(--ivory)"/>
+            <rect x="186" y="197" width="84" height="130" fill="url(#brickg)"/><rect x="186" y="197" width="84" height="130" fill="url(#bricks)"/>
+            <rect x="294" y="197" width="104" height="130" fill="url(#brickg)"/><rect x="294" y="197" width="104" height="130" fill="url(#bricks)"/>
+            <rect x="422" y="197" width="84" height="130" fill="url(#brickg)"/><rect x="422" y="197" width="84" height="130" fill="url(#bricks)"/>
+            <!-- сходові клітини двох парадних -->
+            <g>
+              <rect x="270" y="197" width="24" height="130" fill="var(--ivory)"/>
+              <rect x="274" y="197" width="16" height="130" fill="#6E7A84" opacity=".62"/>
+              <rect x="274" y="221" width="16" height="3.4" fill="var(--ivory)"/>
+              <rect x="274" y="247" width="16" height="3.4" fill="var(--ivory)"/>
+              <rect x="274" y="273" width="16" height="3.4" fill="var(--ivory)"/>
+              <rect x="274" y="299" width="16" height="3.4" fill="var(--ivory)"/>
+              <path d="M279 197v130M283 197v130" stroke="var(--ivory)" stroke-width="1" opacity=".4"/>
+              <rect x="398" y="197" width="24" height="130" fill="var(--ivory)"/>
+              <rect x="402" y="197" width="16" height="130" fill="#6E7A84" opacity=".62"/>
+              <rect x="402" y="221" width="16" height="3.4" fill="var(--ivory)"/>
+              <rect x="402" y="247" width="16" height="3.4" fill="var(--ivory)"/>
+              <rect x="402" y="273" width="16" height="3.4" fill="var(--ivory)"/>
+              <rect x="402" y="299" width="16" height="3.4" fill="var(--ivory)"/>
+              <path d="M407 197v130M411 197v130" stroke="var(--ivory)" stroke-width="1" opacity=".4"/>
             </g>
-            <!-- вікна: кремовий наличник + скло -->
+            <!-- вікна з балконами -->
             <g fill="var(--ivory)">
-              <rect x="217" y="189" width="22" height="24"/><rect x="261" y="189" width="22" height="24"/><rect x="357" y="189" width="22" height="24"/><rect x="401" y="189" width="22" height="24"/>
-              <rect x="217" y="218" width="22" height="24"/><rect x="261" y="218" width="22" height="24"/><rect x="357" y="218" width="22" height="24"/><rect x="401" y="218" width="22" height="24"/>
-              <rect x="217" y="247" width="22" height="24"/><rect x="261" y="247" width="22" height="24"/><rect x="357" y="247" width="22" height="24"/><rect x="401" y="247" width="22" height="24"/>
-              <rect x="217" y="276" width="22" height="24"/><rect x="261" y="276" width="22" height="24"/><rect x="357" y="276" width="22" height="24"/><rect x="401" y="276" width="22" height="24"/>
+              <rect x="200" y="201" width="22" height="20"/>
+              <rect x="236" y="201" width="22" height="20"/>
+              <rect x="316" y="201" width="22" height="20"/>
+              <rect x="356" y="201" width="22" height="20"/>
+              <rect x="436" y="201" width="22" height="20"/>
+              <rect x="472" y="201" width="22" height="20"/>
+              <rect x="200" y="227" width="22" height="20"/>
+              <rect x="236" y="227" width="22" height="20"/>
+              <rect x="316" y="227" width="22" height="20"/>
+              <rect x="356" y="227" width="22" height="20"/>
+              <rect x="436" y="227" width="22" height="20"/>
+              <rect x="472" y="227" width="22" height="20"/>
+              <rect x="200" y="253" width="22" height="20"/>
+              <rect x="236" y="253" width="22" height="20"/>
+              <rect x="316" y="253" width="22" height="20"/>
+              <rect x="356" y="253" width="22" height="20"/>
+              <rect x="436" y="253" width="22" height="20"/>
+              <rect x="472" y="253" width="22" height="20"/>
+              <rect x="200" y="279" width="22" height="20"/>
+              <rect x="236" y="279" width="22" height="20"/>
+              <rect x="316" y="279" width="22" height="20"/>
+              <rect x="356" y="279" width="22" height="20"/>
+              <rect x="436" y="279" width="22" height="20"/>
+              <rect x="472" y="279" width="22" height="20"/>
+              <rect x="200" y="305" width="22" height="20"/>
+              <rect x="236" y="305" width="22" height="20"/>
+              <rect x="316" y="305" width="22" height="20"/>
+              <rect x="356" y="305" width="22" height="20"/>
+              <rect x="436" y="305" width="22" height="20"/>
+              <rect x="472" y="305" width="22" height="20"/>
             </g>
             <g class="lowwin">
-              <rect class="win" x="221" y="192" width="14" height="18"/><rect class="win" x="265" y="192" width="14" height="18"/>
-              <rect class="win" x="361" y="192" width="14" height="18"/><rect class="win" x="405" y="192" width="14" height="18"/>
-              <rect class="win" x="221" y="221" width="14" height="18"/><rect class="win" x="265" y="221" width="14" height="18"/>
-              <rect class="win" x="361" y="221" width="14" height="18"/><rect class="win" x="405" y="221" width="14" height="18"/>
-              <rect class="win" x="221" y="250" width="14" height="18"/><rect class="win" x="265" y="250" width="14" height="18"/>
-              <rect class="win" x="361" y="250" width="14" height="18"/><rect class="win" x="405" y="250" width="14" height="18"/>
-              <rect class="win" x="221" y="279" width="14" height="18"/><rect class="win" x="265" y="279" width="14" height="18"/>
-              <rect class="win" x="361" y="279" width="14" height="18"/><rect class="win" x="405" y="279" width="14" height="18"/>
+              <rect class="win" x="203" y="204" width="16" height="14"/>
+              <rect class="win" x="239" y="204" width="16" height="14"/>
+              <rect class="win" x="319" y="204" width="16" height="14"/>
+              <rect class="win" x="359" y="204" width="16" height="14"/>
+              <rect class="win" x="439" y="204" width="16" height="14"/>
+              <rect class="win" x="475" y="204" width="16" height="14"/>
+              <rect class="win" x="203" y="230" width="16" height="14"/>
+              <rect class="win" x="239" y="230" width="16" height="14"/>
+              <rect class="win" x="319" y="230" width="16" height="14"/>
+              <rect class="win" x="359" y="230" width="16" height="14"/>
+              <rect class="win" x="439" y="230" width="16" height="14"/>
+              <rect class="win" x="475" y="230" width="16" height="14"/>
+              <rect class="win" x="203" y="256" width="16" height="14"/>
+              <rect class="win" x="239" y="256" width="16" height="14"/>
+              <rect class="win" x="319" y="256" width="16" height="14"/>
+              <rect class="win" x="359" y="256" width="16" height="14"/>
+              <rect class="win" x="439" y="256" width="16" height="14"/>
+              <rect class="win" x="475" y="256" width="16" height="14"/>
+              <rect class="win" x="203" y="282" width="16" height="14"/>
+              <rect class="win" x="239" y="282" width="16" height="14"/>
+              <rect class="win" x="319" y="282" width="16" height="14"/>
+              <rect class="win" x="359" y="282" width="16" height="14"/>
+              <rect class="win" x="439" y="282" width="16" height="14"/>
+              <rect class="win" x="475" y="282" width="16" height="14"/>
+              <rect class="win" x="203" y="308" width="16" height="14"/>
+              <rect class="win" x="239" y="308" width="16" height="14"/>
+              <rect class="win" x="319" y="308" width="16" height="14"/>
+              <rect class="win" x="359" y="308" width="16" height="14"/>
+              <rect class="win" x="439" y="308" width="16" height="14"/>
+              <rect class="win" x="475" y="308" width="16" height="14"/>
             </g>
-            <!-- кутові ризаліти з балконами -->
             <g>
-              <rect x="172" y="183" width="24" height="123" fill="var(--ivory-d)" opacity=".5"/>
-              <rect x="444" y="183" width="24" height="123" fill="var(--ivory-d)" opacity=".5"/>
-              <g fill="var(--glass)">
-                <rect x="172" y="200" width="24" height="11"/><rect x="172" y="229" width="24" height="11"/><rect x="172" y="258" width="24" height="11"/><rect x="172" y="287" width="24" height="11"/>
-                <rect x="444" y="200" width="24" height="11"/><rect x="444" y="229" width="24" height="11"/><rect x="444" y="258" width="24" height="11"/><rect x="444" y="287" width="24" height="11"/>
-              </g>
-              <g fill="var(--ivory)">
-                <rect x="172" y="199" width="24" height="2"/><rect x="172" y="228" width="24" height="2"/><rect x="172" y="257" width="24" height="2"/><rect x="172" y="286" width="24" height="2"/>
-                <rect x="444" y="199" width="24" height="2"/><rect x="444" y="228" width="24" height="2"/><rect x="444" y="257" width="24" height="2"/><rect x="444" y="286" width="24" height="2"/>
-              </g>
+              <rect x="199" y="213" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="199" y="213" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="198" y="219" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="235" y="213" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="235" y="213" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="234" y="219" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="315" y="213" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="315" y="213" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="314" y="219" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="355" y="213" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="355" y="213" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="354" y="219" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="435" y="213" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="435" y="213" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="434" y="219" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="471" y="213" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="471" y="213" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="470" y="219" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="199" y="239" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="199" y="239" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="198" y="245" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="235" y="239" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="235" y="239" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="234" y="245" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="315" y="239" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="315" y="239" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="314" y="245" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="355" y="239" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="355" y="239" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="354" y="245" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="435" y="239" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="435" y="239" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="434" y="245" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="471" y="239" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="471" y="239" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="470" y="245" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="199" y="265" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="199" y="265" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="198" y="271" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="235" y="265" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="235" y="265" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="234" y="271" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="315" y="265" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="315" y="265" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="314" y="271" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="355" y="265" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="355" y="265" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="354" y="271" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="435" y="265" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="435" y="265" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="434" y="271" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="471" y="265" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="471" y="265" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="470" y="271" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="199" y="291" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="199" y="291" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="198" y="297" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="235" y="291" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="235" y="291" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="234" y="297" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="315" y="291" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="315" y="291" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="314" y="297" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="355" y="291" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="355" y="291" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="354" y="297" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="435" y="291" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="435" y="291" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="434" y="297" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="471" y="291" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="471" y="291" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="470" y="297" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="199" y="317" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="199" y="317" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="198" y="323" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="235" y="317" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="235" y="317" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="234" y="323" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="315" y="317" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="315" y="317" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="314" y="323" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="355" y="317" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="355" y="317" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="354" y="323" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="435" y="317" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="435" y="317" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="434" y="323" width="26" height="1.8" fill="var(--ivory)"/>
+              <rect x="471" y="317" width="24" height="6" fill="#C7D1D4" opacity=".92"/>
+              <rect x="471" y="317" width="24" height="1.6" fill="#F2F5F6"/>
+              <rect x="470" y="323" width="26" height="1.8" fill="var(--ivory)"/>
             </g>
-            <!-- центральний ризаліт: стрічка скління -->
-            <rect x="310" y="183" width="20" height="123" fill="var(--glass)"/>
-            <g stroke="var(--ivory)" stroke-width="2.5"><path d="M310 212h20M310 241h20M310 270h20M310 299h20"/></g>
-            <!-- цоколь із рустом -->
-            <rect x="168" y="306" width="304" height="46" fill="var(--ivory)"/>
-            <g stroke="var(--ivory-d)" stroke-width="1.4" opacity=".8"><path d="M168 318h304M168 330h304M168 342h304"/></g>
+            <!-- перший поверх -->
+            <rect x="186" y="327" width="320" height="25" fill="var(--ivory)"/>
+            <g stroke="var(--ivory-d)" stroke-width="1.3" opacity=".8"><path d="M186 335h320M186 344h320"/></g>
             <g fill="#D3DADE" opacity=".85">
-              <rect x="218" y="320" width="24" height="15"/><rect x="262" y="320" width="24" height="15"/>
-              <rect x="358" y="320" width="24" height="15"/><rect x="402" y="320" width="24" height="15"/>
+              <rect x="203" y="332" width="18" height="13"/><rect x="239" y="332" width="18" height="13"/>
+              <rect x="319" y="332" width="18" height="13"/><rect x="359" y="332" width="18" height="13"/>
+              <rect x="439" y="332" width="18" height="13"/><rect x="475" y="332" width="18" height="13"/>
             </g>
-            <!-- світлотінь: правий бік у півтіні -->
-            <rect x="444" y="183" width="28" height="169" fill="var(--navy)" opacity=".05"/>
+            <!-- дві парадні -->
+            <g>
+              <path d="M266 322h32l-5-9h-22z" fill="var(--navy)" opacity=".78"/>
+              <rect x="268" y="322" width="28" height="30" fill="var(--ivory-d)"/>
+              <rect x="273" y="328" width="18" height="24" fill="var(--navy)" opacity=".72"/>
+              <path d="M394 322h32l-5-9h-22z" fill="var(--navy)" opacity=".78"/>
+              <rect x="396" y="322" width="28" height="30" fill="var(--ivory-d)"/>
+              <rect x="401" y="328" width="18" height="24" fill="var(--navy)" opacity=".72"/>
+            </g>
+            <rect x="474" y="197" width="32" height="155" fill="var(--navy)" opacity=".05"/>
           </g>
 
           <!-- ── багатоповерховий ── -->
@@ -497,23 +631,22 @@ input{caret-color:var(--olive-d)}
 
           <!-- вхідна група (зданий будинок) -->
           <g data-layer="entrance" id="l-entrance" opacity="0">
-            <rect x="304" y="314" width="32" height="38" fill="var(--navy)" opacity=".78"/>
-            <rect x="298" y="308" width="44" height="7" fill="var(--ivory-d)"/>
-            <circle cx="331" cy="334" r="1.8" fill="var(--yellow)"/>
-            <path d="M306 352h28" stroke="var(--ivory-d)" stroke-width="3"/>
+            <circle cx="282" cy="326" r="2.2" fill="var(--yellow)"/><circle cx="410" cy="326" r="2.2" fill="var(--yellow)"/>
+            <ellipse cx="282" cy="352" rx="19" ry="4" fill="var(--yellow)" opacity=".3"/>
+            <ellipse cx="410" cy="352" rx="19" ry="4" fill="var(--yellow)" opacity=".3"/>
           </g>
 
           <!-- будівельна сітка + кран (будується) -->
           <g data-layer="scaffold" id="l-scaffold" opacity="0">
-            <g class="sc sc-low"><rect x="340" y="183" width="100" height="123" fill="url(#mesh)"/><rect x="340" y="183" width="100" height="123" fill="none" stroke="var(--navy)" stroke-width="1" opacity=".3"/></g>
+            <g class="sc sc-low"><rect x="294" y="197" width="104" height="130" fill="url(#mesh)"/><rect x="294" y="197" width="104" height="130" fill="none" stroke="var(--navy)" stroke-width="1" opacity=".3"/></g>
             <g class="sc sc-high"><rect x="272" y="144" width="96" height="162" fill="url(#mesh)"/><rect x="272" y="144" width="96" height="162" fill="none" stroke="var(--navy)" stroke-width="1" opacity=".3"/></g>
             <g class="sc sc-town"><rect x="342" y="250" width="72" height="60" fill="url(#mesh)"/><rect x="342" y="250" width="72" height="60" fill="none" stroke="var(--navy)" stroke-width="1" opacity=".3"/></g>
           </g>
           <g data-layer="crane" id="l-crane" opacity="0" fill="none" stroke="var(--navy)" stroke-width="1.6" stroke-linecap="round">
-            <path d="M486 352V138"/><path d="M476 352h20"/><path d="M480 300h12M480 250h12M480 200h12"/>
-            <path d="M420 138h150"/><path d="M486 138l-52 10M486 138l76 12"/>
-            <path d="M540 138v22"/><rect x="532" y="160" width="16" height="12" rx="1.5" fill="var(--cream)"/>
-            <path d="M486 158l-6 8h12z" fill="var(--cream)"/>
+            <path d="M528 352V134"/><path d="M518 352h20"/><path d="M522 300h12M522 250h12M522 200h12"/>
+            <path d="M462 134h150"/><path d="M528 134l-52 10M528 134l76 12"/>
+            <path d="M582 134v22"/><rect x="574" y="156" width="16" height="12" rx="1.5" fill="var(--cream)"/>
+            <path d="M528 154l-6 8h12z" fill="var(--cream)"/>
           </g>
 
           <!-- ставок із містком -->
@@ -540,7 +673,7 @@ input{caret-color:var(--olive-d)}
               </g>
             </g>
             <ellipse cx="148" cy="357" rx="26" ry="6" fill="var(--olive)" opacity=".22"/>
-            <ellipse cx="470" cy="349" rx="21" ry="5" fill="var(--olive)" opacity=".22"/>
+            <ellipse cx="138" cy="353" rx="21" ry="5" fill="var(--olive)" opacity=".22"/>
             <ellipse cx="614" cy="347" rx="16" ry="4" fill="var(--olive)" opacity=".2"/>
             <!-- клен великий -->
             <g>
@@ -553,10 +686,10 @@ input{caret-color:var(--olive-d)}
             </g>
             <!-- клен справа -->
             <g>
-              <path d="M470 348v-44" stroke="#7A5C43" stroke-width="3.4" fill="none"/>
-              <circle cx="470" cy="292" r="24" fill="var(--olive)" opacity=".85"/>
-              <circle cx="452" cy="302" r="15" fill="var(--olive)" opacity=".6"/>
-              <circle cx="488" cy="302" r="15" fill="var(--olive)" opacity=".6"/>
+              <path d="M138 352v-44" stroke="#7A5C43" stroke-width="3.4" fill="none"/>
+              <circle cx="138" cy="296" r="24" fill="var(--olive)" opacity=".85"/>
+              <circle cx="120" cy="306" r="15" fill="var(--olive)" opacity=".6"/>
+              <circle cx="156" cy="306" r="15" fill="var(--olive)" opacity=".6"/>
             </g>
             <g>
               <path d="M614 346v-34" stroke="#7A5C43" stroke-width="3" fill="none"/>
@@ -624,19 +757,13 @@ input{caret-color:var(--olive-d)}
 
           <!-- виноска: ваша квартира -->
           <g data-layer="flat" id="l-flat" opacity="0">
-            <path d="M170 200h-6" stroke="var(--navy)" stroke-width="1" opacity=".28" stroke-dasharray="3 3"/>
-            <rect x="14" y="124" width="156" height="116" rx="12" fill="#fff" stroke="var(--line)" stroke-width="1"/>
-            <rect class="fl__room" id="fr1" x="30" y="140" width="54" height="54" rx="3"/>
-            <rect class="fl__room" id="fr2" x="90" y="140" width="64" height="25" rx="3"/>
-            <rect class="fl__room" id="fr3" x="90" y="171" width="64" height="23" rx="3"/>
-            <g class="fur" id="fur1" stroke="var(--olive-d)" stroke-width="1.2" fill="none">
-              <rect x="38" y="172" width="28" height="12" rx="2"/><circle cx="74" cy="178" r="4"/>
+            <path d="M186 250h-8" stroke="var(--navy)" stroke-width="1" opacity=".28" stroke-dasharray="3 3"/>
+            <rect x="8" y="100" width="176" height="156" rx="14" fill="#fff" stroke="var(--line)" stroke-width="1"/>
+            <g id="flatplan"></g>
+            <g id="flatperson" opacity="0" stroke="var(--navy)" stroke-width="1.7" fill="none" stroke-linecap="round">
+              <circle cx="152" cy="200" r="5.4"/><path d="M152 206v14"/><path d="M140 218l12-8 12 8"/><path d="M152 220l-6 14M152 220l6 14"/>
             </g>
-            <g class="fur" id="fur2" stroke="var(--olive-d)" stroke-width="1.2" fill="none">
-              <rect x="97" y="146" width="24" height="12" rx="2"/><path d="M130 146v12M136 146v12"/>
-              <rect x="97" y="175" width="18" height="14" rx="2"/>
-            </g>
-            <text id="flabel" x="30" y="222" font-size="13" font-weight="500" fill="var(--navy)">Ваша квартира</text>
+            <text id="flabel" x="24" y="242" font-size="13" font-weight="500" fill="var(--navy)">Ваша квартира</text>
           </g>
         </g>
       </svg>
@@ -683,16 +810,16 @@ const ppmUah = usd => fmt(Math.round(usd * CONFIG.rate / 100) * 100);
 /* ── Питання: 1:1 з лід-формою Meta ─────────────────────── */
 const Q = [
 { id:'flat', q:'Яку квартиру ви розглядаєте?', multi:false,
-  hint:`Станом на ${CONFIG.stockDate} вільні 24 однокімнатні, 38 двокімнатних і 4 трикімнатні. Трикімнатних лишилось найменше.`,
+  hint:'',
   opts:[
-    {t:'Смарт', n:'до 30 м²', v:'smart', s:{rooms:'1'}},
+    {t:'Смарт', n:'до 30 м²', v:'smart', s:{rooms:'0'}},
     {t:'1-кімнатну', n:'від 43,24 м²', v:'1k', s:{rooms:'1'}},
     {t:'2-кімнатну', n:'від 64,91 м²', v:'2k', s:{rooms:'2'}},
     {t:'3-кімнатну', n:'від 90,55 м²', v:'3k', s:{rooms:'3'}},
-    {t:'Ще не визначився / визначилася', v:'any', s:{rooms:'2'}}
+    {t:'Ще не визначився / визначилася', v:'any', s:{rooms:'?'}}
   ]},
 { id:'fit', q:'Бажана стадія ремонту квартири', multi:false,
-  hint:'У кожній квартирі вже є стяжка, п’ятикамерні вікна та власний котел Bosch — ремонт починається не з нуля.',
+  hint:'У кожній квартирі вже є стяжка, п’ятикамерні вікна та власний двоконтурний газовий котел — ремонт починається не з нуля.',
   opts:[
     {t:'Без ремонту', v:'none', s:{fit:'none'}},
     {t:'З ремонтом', v:'repair', s:{fit:'repair'}},
@@ -706,7 +833,7 @@ const Q = [
     {t:'Зданий будинок', n:`від ${ppmUah(CONFIG.ppm.ready)} ₴/м² · дім №7`, v:'ready', s:{stage:'ready'}}
   ]},
 { id:'district', q:'Який район розглядаєте?', multi:true,
-  hint:'Комплекс «Парк Совіньйон» — у Совіньйоні: до моря кілька хвилин, до центру Одеси близько 25.',
+  hint:'У комплексі «Парк Совіньйон» усе потрібне поруч: продуктовий — дві хвилини пішки, море — п’ятнадцять, школа — 10 хвилин автівкою, лікарня — 15.',
   opts:[
     {t:'Центр', v:'centre', s:{city:1}},
     {t:'Аркадія', v:'arcadia', s:{sea:1}},
@@ -715,7 +842,7 @@ const Q = [
     {t:'Район елітного класу Совіньйон', v:'sauvignon', s:{sea:1}}
   ]},
 { id:'house', q:'В якому будинку ви бажаєте жити?', multi:false,
-  hint:'«Парк Совіньйон» — малоповерховий комплекс: не більше шести квартир на поверсі й тихі під’їзди.',
+  hint:'«Парк Совіньйон» — малоповерховий комплекс: не більше шести квартир на поверсі.',
   opts:[
     {t:'У малоповерховому будинку', v:'low', s:{house:'low'}},
     {t:'У багатоповерховому будинку', v:'high', s:{house:'high'}},
@@ -770,16 +897,12 @@ function paint(){
   on('l-pond',S.pond); on('l-parking',S.parking); on('l-sec',S.sec);
   on('l-crane',S.stage==='build'); on('l-scaffold',S.stage==='build'); on('l-entrance',S.stage==='ready');
   on('l-flat',!!S.rooms);
-  const r=+S.rooms||0;
-  document.getElementById('fr1').classList.toggle('is-on',r>=1);
-  document.getElementById('fr2').classList.toggle('is-on',r>=2);
-  document.getElementById('fr3').classList.toggle('is-on',r>=3);
-  document.getElementById('fur1').classList.toggle('is-on',S.fit==='repair'||S.fit==='full');
-  document.getElementById('fur2').classList.toggle('is-on',S.fit==='full');
-  const lbl={'1':'Однокімнатна · від 43,2 м²','2':'Двокімнатна · від 64,9 м²','3':'Трикімнатна · від 90,5 м²'}[S.rooms]||'Ваша квартира';
+  if(S.rooms==='?'&&!S.randPlan) S.randPlan=['1','2','3'][Math.floor(Math.random()*3)];
+  renderPlan();
+  const lbl={'0':'Смарт','1':'Однокімнатна','2':'Двокімнатна','3':'Трикімнатна','?':'Ще обираєте'}[S.rooms]||'Ваша квартира';
   document.getElementById('flabel').textContent=lbl;
   // світло у вікнах: зданий будинок — тепле, будується — тільки контури
-  const LIT=[0,1,0,0, 1,0,0,1, 0,0,1,0, 1,0,0,1];
+  const LIT=[0,0,1,0,0,0, 0,1,0,0,0,1, 0,0,0,1,0,0, 1,0,0,0,0,0, 0,0,1,0,0,1];
   document.querySelectorAll('.win').forEach((w,i)=>w.classList.toggle('-lit', S.stage==='ready' && !!LIT[i%LIT.length]));
   // сонце по дузі + температура неба
   const SUN=[[-96,26],[-48,-2],[0,-18],[52,-6],[104,22]][S.time]||[0,-18];
@@ -790,6 +913,67 @@ function paint(){
   document.documentElement.style.setProperty('--sky-b',warm[1]);
 }
 function on(id,v){document.getElementById(id).classList.toggle('is-on',!!v);}
+
+
+/* ── Ізометричне планування квартири ──────────────────────
+   Плани описані в сітці; проєкція 2:1, меблі — ізо-коробки. */
+const ISO={ux:15,uy:7.5,wall:22};
+const PLANS={
+  smart:{w:5,h:3,rooms:[{t:'hall',x:0,y:0,w:2,h:1},{t:'bath',x:0,y:1,w:2,h:2},{t:'studio',x:2,y:0,w:3,h:3}]},
+  '1':{w:6,h:4,rooms:[{t:'hall',x:0,y:0,w:2,h:1},{t:'bath',x:0,y:1,w:2,h:1},{t:'kitchen',x:0,y:2,w:2,h:2},{t:'living',x:2,y:0,w:4,h:4}]},
+  '2':{w:6,h:4,rooms:[{t:'hall',x:0,y:0,w:2,h:1},{t:'bath',x:0,y:1,w:2,h:1},{t:'kitchen',x:0,y:2,w:2,h:2},{t:'living',x:2,y:0,w:4,h:2},{t:'bed',x:2,y:2,w:4,h:2}]},
+  '3':{w:6,h:5,rooms:[{t:'hall',x:0,y:0,w:2,h:1},{t:'bath',x:0,y:1,w:2,h:1},{t:'kitchen',x:0,y:2,w:2,h:3},{t:'living',x:2,y:0,w:4,h:2},{t:'bed',x:2,y:2,w:2,h:3},{t:'bed',x:4,y:2,w:2,h:3}]}
+};
+const WET={bath:1,kitchen:1};
+const FURN={
+  hall:[[.12,.12,.34,.7,10,'#E4DDCE']],
+  bath:[[.1,.12,.7,.42,7,'#EDF1F2'],[.1,.66,.28,.28,9,'#EDF1F2']],
+  kitchen:[[.08,.08,.8,.24,11,'#E9E2D4'],[.3,.5,.4,.34,7,'#B9A98C']],
+  living:[[.1,.12,.5,.24,8,'#9DA45C'],[.24,.46,.28,.22,5,'#B9A98C'],[.78,.2,.1,.44,10,'#6A7082']],
+  bed:[[.12,.16,.5,.62,7,'#E7E1D3'],[.7,.16,.18,.2,8,'#B9A98C']],
+  studio:[[.08,.08,.5,.2,11,'#E9E2D4'],[.14,.5,.44,.24,8,'#9DA45C'],[.72,.24,.12,.4,10,'#6A7082']]
+};
+const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16);
+  const r=Math.round(((n>>16)&255)*k),g=Math.round(((n>>8)&255)*k),b=Math.round((n&255)*k);
+  return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);};
+const P=(x,y)=>[(x-y)*ISO.ux,(x+y)*ISO.uy];
+const poly=(pts,fill,stroke,sw)=>`<polygon points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="${fill}"${stroke?` stroke="${stroke}" stroke-width="${sw||1}" stroke-linejoin="round"`:''}/>`;
+function isoBox(x,y,w,d,h,c){
+  const up=p=>[p[0],p[1]-h];
+  const A=P(x,y),B=P(x+w,y),C=P(x+w,y+d),D=P(x,y+d);
+  return poly([D,C,up(C),up(D)],shade(c,.78))+poly([C,B,up(B),up(C)],shade(c,.9))+poly([up(A),up(B),up(C),up(D)],c);
+}
+function renderPlan(){
+  const g=document.getElementById('flatplan'); if(!g) return;
+  const key=S.rooms==='?'?(S.randPlan||'2'):(S.rooms==='0'?'smart':S.rooms);
+  const plan=PLANS[key]; if(!plan){g.innerHTML='';return;}
+  const fit=S.fit||'none', done=fit==='repair'||fit==='full'||fit==='any';
+  const floor=t=>done?(WET[t]?'#DCE1E3':'#E3D2B6'):'#C9CAC4';
+  const wallC=done?'#F0EDE6':'#D8D9D3';
+  let out='';
+  plan.rooms.forEach(r=>{
+    out+=poly([P(r.x,r.y),P(r.x+r.w,r.y),P(r.x+r.w,r.y+r.h),P(r.x,r.y+r.h)],floor(r.t),done?'#fff':'#BFC0BA',1.1);
+  });
+  // перегородки й зовнішні стіни — з унікальних ребер сітки
+  const edges=new Map();
+  plan.rooms.forEach(r=>{
+    const add=(a,b,c,d)=>{const k=[a,b,c,d].join('|'); if(!edges.has(k)) edges.set(k,[a,b,c,d]);};
+    add(r.x,r.y,r.x+r.w,r.y); add(r.x,r.y+r.h,r.x+r.w,r.y+r.h);
+    add(r.x,r.y,r.x,r.y+r.h); add(r.x+r.w,r.y,r.x+r.w,r.y+r.h);
+  });
+  const T=.13, WH=13;
+  [...edges.values()].sort((a,b)=>(a[0]+a[1])-(b[0]+b[1])).forEach(([x1,y1,x2,y2])=>{
+    out += (y1===y2) ? isoBox(x1,y1-T/2,x2-x1,T,WH,wallC) : isoBox(x1-T/2,y1,T,y2-y1,WH,wallC);
+  });
+  if(fit==='full'){
+    const items=[];
+    plan.rooms.forEach(r=>(FURN[r.t]||[]).forEach(f=>items.push([r.x+f[0]*r.w, r.y+f[1]*r.h, f[2]*r.w, f[3]*r.h, f[4], f[5]])));
+    items.sort((a,b)=>(a[0]+a[1])-(b[0]+b[1])).forEach(f=>{out+=isoBox(f[0],f[1],f[2],f[3],f[4],f[5]);});
+  }
+  const tx=96-(plan.w-plan.h)*ISO.ux/2, ty=182-(plan.w+plan.h)*ISO.uy/2+ISO.wall/2;
+  g.innerHTML=`<g transform="translate(${tx.toFixed(1)},${ty.toFixed(1)})">${out}</g>`;
+  document.getElementById('flatperson').style.opacity = S.rooms==='?'?'1':'0';
+}
 
 /* ── Іконки ──────────────────────────────────────────────── */
 const ICO={
@@ -831,7 +1015,7 @@ function renderQ(q){
           <span class="opt__k">${i+1}</span>
         </button>`).join('')}
     </div>
-    <div class="hint">${ICO.info}<span>${q.hint}</span></div>
+    ${q.hint?`<div class="hint">${ICO.info}<span>${q.hint}</span></div>`:''}
     <div class="nav">
       ${q.multi?`<button class="btn -olive" id="next" ${sel.length?'':'disabled'}>Далі<i class="arr"></i></button>`:''}
       ${step>0?`<button class="back" id="back">${ICO.back}Назад</button>`:''}
