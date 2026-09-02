@@ -87,15 +87,15 @@ input{caret-color:var(--olive-d)}
 /* ── Каркас ──────────────────────────────────────────────── */
 .stage{max-width:1240px;margin:0 auto;padding:0 clamp(16px,3vw,32px) 40px;
   display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);
-  column-gap:clamp(24px,4vw,64px);row-gap:8px;align-items:start}
+  column-gap:clamp(24px,4vw,64px);row-gap:0;align-items:start}
 .scene-col{grid-column:1;grid-row:1}
-.wish{grid-column:1;grid-row:2}
-.ask-col{grid-column:2;grid-row:1/span 2}
+.ask-col{grid-column:2;grid-row:1}
+.scene-col .wish{margin-top:14px}
 @media(max-width:940px){
-  .stage{grid-template-columns:minmax(0,1fr);row-gap:0;padding-bottom:24px}
+  .stage{grid-template-columns:minmax(0,1fr);grid-template-rows:none;row-gap:0;padding-bottom:24px}
   .scene-col{grid-column:1;grid-row:1}
   .ask-col{grid-column:1;grid-row:2}
-  .wish{grid-column:1;grid-row:3;padding:6px 16px 0}
+  .wish{grid-column:1;padding:10px 16px 0}
 }
 
 /* ── Колонка сцени ───────────────────────────────────────── */
@@ -110,7 +110,7 @@ input{caret-color:var(--olive-d)}
 @media(max-width:940px){.scene-wrap{border-radius:0;box-shadow:none;background:transparent;
     -webkit-mask-image:linear-gradient(180deg,#000 84%,transparent);mask-image:linear-gradient(180deg,#000 84%,transparent)}}
 .scene{display:block;width:100%;min-width:0;height:auto;aspect-ratio:640/440}
-@media(max-width:940px){.scene{aspect-ratio:640/400;max-height:23svh}}
+@media(max-width:940px){.scene{aspect-ratio:640/400;max-height:20svh}}
 .chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;
   background:var(--olive-tint);color:var(--olive-d);font-size:var(--fs-xs);font-weight:500;
   animation:chipIn .4s cubic-bezier(.2,.7,.2,1) both}
@@ -124,7 +124,7 @@ input{caret-color:var(--olive-d)}
 @media(max-width:940px){.ask-col{padding-top:10px;min-height:0}}
 .wish{display:flex;align-items:flex-start;gap:12px;padding:2px 16px 6px}
 @media(min-width:941px){.wish{padding:6px 16px 2px}}
-.wish__me{flex:none;width:116px;height:80px;margin-top:-6px}
+.wish__me{flex:none;width:128px;height:94px;margin-top:-8px}
 .wish__t{position:relative;margin:0;padding:11px 14px;border-radius:14px 14px 14px 4px;
   background:var(--olive-tint);color:var(--navy);font-size:var(--fs-sm);line-height:1.5;text-wrap:pretty}
 .wish__t.is-new{animation:wishIn .42s cubic-bezier(.2,.7,.2,1) both}
@@ -134,21 +134,25 @@ input{caret-color:var(--olive-d)}
 .wish__e:hover{color:var(--navy)}
 .wish__e:hover span{border-bottom-color:var(--navy)}
 @keyframes wishIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.step-head{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:22px}
 .step-no{font-size:var(--fs-xs);font-weight:500;letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray)}
-.q{margin-top:10px;font-size:var(--fs-h1);font-weight:500;line-height:var(--lh-head);letter-spacing:var(--tr-head);max-width:17ch;text-wrap:balance}
+.q{margin-top:10px;font-size:var(--fs-h1);font-weight:500;line-height:var(--lh-head);letter-spacing:var(--tr-head);max-width:22ch;text-wrap:balance}
 .q .em{color:var(--olive-d)}
 .sub{margin-top:12px;max-width:52ch;font-size:var(--fs-lead);color:var(--gray);text-wrap:pretty}
 
 .opts{margin-top:22px;display:grid;gap:8px}
 @media(max-width:940px){
-  .opts{margin-top:14px;gap:6px}
-  .opt{padding:11px 15px;gap:11px}
-  .opt__box{width:20px;height:20px}
-  .q{margin-top:7px}
-  .sub{margin-top:8px}
-  .hint{margin-top:14px;padding:12px 14px}
-  .nav{margin-top:18px}
-  .wish__me{width:88px;height:60px}
+  .opts{margin-top:12px;gap:6px}
+  .opt{padding:10px 14px;gap:10px;font-size:15px;border-radius:12px}
+  .opt__box{width:19px;height:19px;border-radius:6px}
+  .opt__box svg{width:19px;height:19px}
+  .q{margin-top:6px;font-size:22px;max-width:none}
+  .sub{margin-top:6px;font-size:14px}
+  .hint{margin-top:12px;padding:11px 13px;font-size:13px}
+  .nav{margin-top:14px}
+  .btn{padding:14px 24px}
+  .resume{display:none}
+  .wish__me{width:92px;height:68px}
   .wish__t{padding:10px 13px;font-size:13px}
 }
 .opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;
@@ -829,35 +833,41 @@ input{caret-color:var(--olive-d)}
   </section>
 
     <div class="wish" id="wish" hidden>
-      <svg class="wish__me" viewBox="0 0 128 88" fill="none" aria-hidden="true">
+      <svg class="wish__me" viewBox="0 0 152 112" fill="none" aria-hidden="true">
         <!-- чоловік -->
         <g>
-          <path d="M76 88c0-16 7-25 16-25s16 9 16 25z" fill="#999F4F"/>
-          <rect x="88" y="47" width="9" height="12" rx="4" fill="#E4B893"/>
-          <ellipse cx="92" cy="38" rx="12.5" ry="13.5" fill="#F0C8A4"/>
-          <path d="M79.5 37c0-9 5.5-15 12.5-15s12.5 6 12.5 14c-1-4-4.5-6.5-9-6.5-5.5 0-8 2.5-12 2.5-2.5 0-4 2-4 5z" fill="#4C3A2C"/>
-          <circle cx="87.5" cy="38" r="1.7" fill="#3A3138"/><circle cx="96.5" cy="38" r="1.7" fill="#3A3138"/>
-          <path d="M84.5 33.6c1.7-1.3 3.6-1.3 5.3 0M94.2 33.6c1.7-1.3 3.6-1.3 5.3 0" stroke="#3A3138" stroke-width="1.4" stroke-linecap="round"/>
-          <path d="M89 45.5c1.6 1.2 3.4 1.2 5 0" stroke="#C98F6B" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M79 86c1-11 4-17 9-22" stroke="#868C43" stroke-width="9" stroke-linecap="round"/>
-          <circle cx="89" cy="55" r="4.8" fill="#F0C8A4"/>
+          <path d="M84 112c0-20 10-30 25-30s25 10 25 30z" fill="#999F4F"/>
+          <path d="M101 82c2 6 6 9 8 9s6-3 8-9l-4-2h-8z" fill="#F4F1EA"/>
+          <rect x="104" y="66" width="11" height="17" rx="5" fill="#E0B189"/>
+          <ellipse cx="109" cy="50" rx="15.5" ry="16.5" fill="#F0C8A4"/>
+          <path d="M93.5 48c0-14 6-22 16-22s15.5 8.5 15.5 21c-1.5-5-5.5-8-11.5-8-7 0-11 3.5-16 4.5-2 .4-3.5 2-4 4.5z" fill="#4C3A2C"/>
+          <circle cx="104" cy="50" r="2" fill="#3A3138"/><circle cx="115" cy="50" r="2" fill="#3A3138"/>
+          <path d="M100.5 44.6c1.9-1.5 4.1-1.5 6 0M111.5 44.6c1.9-1.5 4.1-1.5 6 0" stroke="#3A3138" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M104 57.5c2 1.6 4.5 1.6 6.5 0" stroke="#C98F6B" stroke-width="1.7" stroke-linecap="round"/>
+          <path d="M90 110c0-13 5-21 12-25" stroke="#828A42" stroke-width="11" stroke-linecap="round"/>
+          <path d="M102 85c4-5 8-8 11-11" stroke="#828A42" stroke-width="10" stroke-linecap="round"/>
+          <circle cx="115" cy="65" r="6.8" fill="#E9BE97"/>
         </g>
         <!-- жінка -->
         <g>
-          <path d="M17 88c0-17 8-27 19-27s19 10 19 27z" fill="#F0CF4B"/>
-          <rect x="31" y="43" width="10" height="13" rx="4.5" fill="#E4B893"/>
-          <ellipse cx="36" cy="33" rx="13" ry="14" fill="#F5CFAB"/>
-          <path d="M22 35c0-11 6.5-18 14-18s14 7 14 17c0 9 1.6 15 3.6 21h-8.4c-2-6-2.4-12-2.2-17-4.4 3-11.5 3.8-17.4.8-1.8-.9-2.6 2.2-2.6 5.2-1-2.6-1-6-1-9z" fill="#3B2E2A"/>
-          <circle cx="31.6" cy="33" r="1.8" fill="#3A3138"/><circle cx="41.4" cy="33" r="1.8" fill="#3A3138"/>
-          <path d="M28.2 28.4c1.9-1.5 4-1.5 5.9 0M38.6 28.4c1.9-1.5 4-1.5 5.9 0" stroke="#3A3138" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M33 41.4c1.8 1.4 3.8 1.4 5.6 0" stroke="#D3906C" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M21 88c1-12 4-19 10-25" stroke="#E3BE3E" stroke-width="10" stroke-linecap="round"/>
-          <circle cx="33" cy="51" r="5.4" fill="#F5CFAB"/>
+          <path d="M12 112c0-22 12-33 30-33s30 11 30 33z" fill="#F0CF4B"/>
+          <path d="M33 79c2 7 7 10 9 10s7-3 9-10l-5-2h-8z" fill="#F7F4EC"/>
+          <rect x="36" y="60" width="12" height="19" rx="5.5" fill="#E0B189"/>
+          <ellipse cx="42" cy="42" rx="19" ry="20" fill="#3B2E2A"/>
+          <ellipse cx="45" cy="45" rx="16" ry="17" fill="#F5CFAB"/>
+          <path d="M26 38c-2 14-1 26 2 36h11c-4-11-5-23-3-33z" fill="#3B2E2A"/>
+          <path d="M29 34c2-12 9-19 18-19 10 0 16 7 17 17-3-5-9-8-16-6-6 2-11 6-15 10-2 2-3 0-4-2z" fill="#3B2E2A"/>
+          <circle cx="40" cy="45" r="2.1" fill="#3A3138"/><circle cx="52" cy="45" r="2.1" fill="#3A3138"/>
+          <path d="M36.4 39.4c2-1.6 4.4-1.6 6.4 0M48.4 39.4c2-1.6 4.4-1.6 6.4 0" stroke="#3A3138" stroke-width="1.7" stroke-linecap="round"/>
+          <path d="M40 53c2.2 1.8 5 1.8 7.2 0" stroke="#D3906C" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M19 110c0-15 6-24 14-29" stroke="#E0BB3B" stroke-width="12" stroke-linecap="round"/>
+          <path d="M34 80c4-5 9-9 13-12" stroke="#E0BB3B" stroke-width="11" stroke-linecap="round"/>
+          <circle cx="50" cy="60" r="7.4" fill="#EFC49C"/>
         </g>
         <!-- знаки питання -->
-        <text x="58" y="26" font-family="ProbaPro,sans-serif" font-size="23" font-weight="600" fill="var(--olive)">?</text>
-        <text x="74" y="14" font-family="ProbaPro,sans-serif" font-size="14" font-weight="600" fill="var(--yellow-d)">?</text>
-        <text x="52" y="10" font-family="ProbaPro,sans-serif" font-size="11" font-weight="600" fill="var(--olive)" opacity=".55">?</text>
+        <text x="72" y="34" font-family="ProbaPro,sans-serif" font-size="30" font-weight="600" fill="var(--olive)">?</text>
+        <text x="92" y="18" font-family="ProbaPro,sans-serif" font-size="17" font-weight="600" fill="var(--yellow-d)">?</text>
+        <text x="66" y="12" font-family="ProbaPro,sans-serif" font-size="12" font-weight="600" fill="var(--olive)" opacity=".5">?</text>
       </svg>
       <p class="wish__t"></p>
     </div>
@@ -1128,7 +1138,10 @@ function renderQ(q){
   const sel = ans[q.id] || (q.multi?[]:null);
   const isOn = v => q.multi ? sel.includes(v) : sel===v;
   card.className='enter'; card.innerHTML = `
-    <div class="step-no">Питання ${step+1} з ${Q.length}</div>
+    <div class="step-head">
+      <span class="step-no">Питання ${step+1} з ${Q.length}</span>
+      ${step>0?`<button class="back" id="back">${ICO.back}Назад</button>`:''}
+    </div>
     <h1 class="q">${q.q}</h1>
     ${q.sub?`<p class="sub">${q.sub}</p>`:''}
     <div class="opts" role="group">
@@ -1140,10 +1153,7 @@ function renderQ(q){
         </button>`).join('')}
     </div>
     ${q.hint?`<div class="hint">${ICO.info}<span>${q.hint}</span></div>`:''}
-    <div class="nav">
-      ${q.multi?`<button class="btn -olive" id="next" ${sel.length?'':'disabled'}>Далі<i class="arr"></i></button>`:''}
-      ${step>0?`<button class="back" id="back">${ICO.back}Назад</button>`:''}
-    </div>`;
+    ${q.multi?`<div class="nav"><button class="btn -olive" id="next" ${sel.length?'':'disabled'}>Далі<i class="arr"></i></button></div>`:''}`;
   card.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pick(q,+b.dataset.i));
   const nx=document.getElementById('next'); if(nx) nx.onclick=()=>go(step+1);
   const bk=document.getElementById('back'); if(bk) bk.onclick=()=>{track('quiz_back',{step:step+1});go(step-1)};
@@ -1178,7 +1188,10 @@ function go(n){ step=Math.max(0,Math.min(Q.length,n)); render(); }
 /* ── Екран контактів ─────────────────────────────────────── */
 function renderContact(){
   card.className='enter'; card.innerHTML=`
-    <div class="step-no">Останній крок</div>
+    <div class="step-head">
+      <span class="step-no">Останній крок</span>
+      <button class="back" id="back">${ICO.back}Назад</button>
+    </div>
     <h1 class="q">Залиште <span class="em">свої контакти</span></h1>
     <form class="form" id="lead" novalidate>
       <div class="fld" id="f-name"><input id="name" name="name" placeholder=" " autocomplete="given-name" required><label for="name">Ваше ім’я</label></div>
@@ -1193,7 +1206,7 @@ function renderContact(){
       <button class="btn -yellow -full" type="submit" id="send" style="margin-top:8px">Відправити форму<i class="arr"></i></button>
       <p class="legal">Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних. Дані нікому не передаються.</p>
     </form>
-    <div class="nav"><button class="back" id="back">${ICO.back}Назад</button></div>`;
+`;
   document.getElementById('back').onclick=()=>{track('quiz_back',{step:Q.length+1});go(step-1)};
   const ways=document.getElementById('ways');
   ways.onclick=e=>{const b=e.target.closest('.way'); if(!b)return;
@@ -1251,9 +1264,8 @@ function renderDone(name){ /* ім'я не вставляємо в зверта�
     <div class="done__mark">${ICO.check}</div>
     <h1 class="q">Дякуємо! Форму <span class="em">отримали</span>.</h1>
     <div class="nextsteps">
-      <div><span>1</span><p>Менеджер підготує варіанти під ваш запит і напише у ${({telegram:'Telegram',viber:'Viber',whatsapp:'WhatsApp',call:'повідомленні'})[ans.way]||'месенджер'}.</p></div>
-      <div><span>2</span><p>${times?`Зателефонуємо у вибраний час: ${times}.`:'Зателефонуємо у робочий час, пн–нд.'}</p></div>
-      <div><span>3</span><p>Якщо захочете подивитись наживо — покажемо квартиру й парк у будь-який день.</p></div>
+      <div><span>1</span><p>${times?`Звʼяжемося з вами у вибраний час: ${times}.`:'Звʼяжемося з вами у робочий час, пн–нд.'}</p></div>
+      <div><span>2</span><p>Якщо захочете подивитись наживо — покажемо квартиру у зручний для вас день.</p></div>
     </div>
     <div class="nav">
       <a class="btn -olive" href="${CONFIG.botUrl}" target="_blank" rel="noopener" onclick="track('bot_click',{})">Поставити питання боту<i class="arr"></i></a>
@@ -1293,8 +1305,17 @@ function renderDbg(){
     `<tr><td>${(e.t/1000).toFixed(1)}с</td><td><b>${e.name}</b> ${e.p.question||e.p.value||''}</td><td>${e.p.ms?Math.round(e.p.ms/100)/10+'с':''}</td></tr>`).join('')}</table>`;
 }
 
+/* ── Блок думки: під сценою на десктопі, у кінці — на мобільному ── */
+const mqNarrow=window.matchMedia('(max-width:940px)');
+function placeWish(){
+  const w=document.getElementById('wish'); if(!w) return;
+  const host=mqNarrow.matches?document.querySelector('.stage'):document.querySelector('.scene-col');
+  if(w.parentElement!==host) host.appendChild(w);
+}
+mqNarrow.addEventListener('change',placeWish);
+
 /* ── Старт ───────────────────────────────────────────────── */
-restore(); render(); if(DEBUG) renderDbg();
+placeWish(); restore(); render(); if(DEBUG) renderDbg();
 </script>
 </body>
 </html>
