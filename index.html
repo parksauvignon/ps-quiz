@@ -53,7 +53,7 @@ html{-webkit-text-size-adjust:100%}
 body{
   font-family:'ProbaPro',system-ui,-apple-system,'Segoe UI',sans-serif;
   font-weight:400;font-size:var(--fs-body);line-height:var(--lh-body);
-  color:var(--navy);background:var(--cream);
+  color:var(--navy);background:#fff;
   -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;
   min-height:100svh;overflow-x:hidden;
 }
@@ -64,12 +64,12 @@ img{display:block;max-width:100%}
 ::selection{background:var(--yellow);color:var(--navy)}
 :focus-visible{outline:2px solid var(--olive-d);outline-offset:3px;border-radius:4px}
 ::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-thumb{background:rgba(49,55,70,.18);border-radius:99px;border:3px solid var(--cream)}
-::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:rgba(49,55,70,.2);border-radius:99px;border:3px solid #fff}
+::-webkit-scrollbar-track{background:#fff}
 input{caret-color:var(--olive-d)}
 
 /* ── Шапка ───────────────────────────────────────────────── */
-.hdr{position:sticky;top:0;z-index:40;background:rgba(247,245,242,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
+.hdr{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
 .hdr__in{display:flex;align-items:center;gap:16px;max-width:1240px;margin:0 auto;padding:12px clamp(16px,3vw,32px)}
 .hdr__logo img{height:30px;width:auto}
 .hdr__meta{margin-left:auto;display:flex;align-items:center;gap:14px}
@@ -86,24 +86,33 @@ input{caret-color:var(--olive-d)}
 
 /* ── Каркас ──────────────────────────────────────────────── */
 .stage{max-width:1240px;margin:0 auto;padding:0 clamp(16px,3vw,32px) 40px;
-  display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start}
-@media(max-width:940px){.stage{grid-template-columns:minmax(0,1fr);gap:0;padding-bottom:24px}}
+  display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);
+  column-gap:clamp(24px,4vw,64px);row-gap:8px;align-items:start}
+.scene-col{grid-column:1;grid-row:1}
+.wish{grid-column:1;grid-row:2}
+.ask-col{grid-column:2;grid-row:1/span 2}
+@media(max-width:940px){
+  .stage{grid-template-columns:minmax(0,1fr);row-gap:0;padding-bottom:24px}
+  .scene-col{grid-column:1;grid-row:1}
+  .ask-col{grid-column:1;grid-row:2}
+  .wish{grid-column:1;grid-row:3;padding:6px 16px 0}
+}
 
 /* ── Колонка сцени ───────────────────────────────────────── */
 .scene-col{position:sticky;top:96px;padding-top:clamp(20px,4vw,48px)}
 @media(max-width:940px){
   .stage{padding-left:0;padding-right:0}
   .scene-col{position:sticky;top:56px;padding-top:0;z-index:20;
-    background:linear-gradient(180deg,var(--cream) 78%,rgba(247,245,242,0))}
+    background:linear-gradient(180deg,#fff 78%,rgba(255,255,255,0))}
   .ask-col{padding-left:16px;padding-right:16px}
 }
-.scene-wrap{position:relative;border-radius:20px;overflow:hidden;background:var(--white);box-shadow:var(--shadow)}
+.scene-wrap{position:relative;border-radius:20px;overflow:hidden;background:var(--white);box-shadow:inset 0 0 0 1px var(--line-soft),var(--shadow)}
 @media(max-width:940px){.scene-wrap{border-radius:0;box-shadow:none;background:transparent;
     -webkit-mask-image:linear-gradient(180deg,#000 84%,transparent);mask-image:linear-gradient(180deg,#000 84%,transparent)}}
 .scene{display:block;width:100%;min-width:0;height:auto;aspect-ratio:640/440}
-@media(max-width:940px){.scene{aspect-ratio:640/400;max-height:34svh}}
+@media(max-width:940px){.scene{aspect-ratio:640/400;max-height:23svh}}
 .scene-cap{display:flex;flex-wrap:wrap;gap:6px;padding:14px 16px 16px}
-@media(max-width:940px){.scene-cap{padding:2px 16px 12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+@media(max-width:940px){.scene-cap{padding:2px 16px 8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .scene-cap::-webkit-scrollbar{display:none}
   .chip{white-space:nowrap;flex:none}}
 .chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;
@@ -115,31 +124,50 @@ input{caret-color:var(--olive-d)}
 @keyframes chipIn{from{opacity:0;transform:translateY(4px) scale(.96)}to{opacity:1;transform:none}}
 
 /* ── Колонка питань ──────────────────────────────────────── */
-.ask-col{padding-top:clamp(20px,4vw,48px);min-height:60svh}
-@media(max-width:940px){.ask-col{padding-top:14px}}
+.ask-col{padding-top:clamp(20px,4vw,48px);min-height:52svh}
+@media(max-width:940px){.ask-col{padding-top:10px;min-height:0}}
+.wish{display:flex;align-items:flex-start;gap:12px;padding:2px 16px 6px}
+@media(min-width:941px){.wish{padding:6px 16px 2px}}
+.wish__me{flex:none;width:46px;height:46px;margin-top:2px}
+.wish__t{position:relative;margin:0;padding:11px 14px;border-radius:14px 14px 14px 4px;
+  background:var(--olive-tint);color:var(--navy);font-size:var(--fs-sm);line-height:1.5;text-wrap:pretty}
+.wish__t.is-new{animation:wishIn .42s cubic-bezier(.2,.7,.2,1) both}
+@keyframes wishIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .step-no{font-size:var(--fs-xs);font-weight:500;letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray)}
 .q{margin-top:10px;font-size:var(--fs-h1);font-weight:500;line-height:var(--lh-head);letter-spacing:var(--tr-head);max-width:17ch;text-wrap:balance}
 .q .em{color:var(--olive-d)}
 .sub{margin-top:12px;max-width:52ch;font-size:var(--fs-lead);color:var(--gray);text-wrap:pretty}
 
 .opts{margin-top:22px;display:grid;gap:8px}
+@media(max-width:940px){
+  .opts{margin-top:14px;gap:6px}
+  .opt{padding:11px 15px;gap:11px}
+  .opt__box{width:20px;height:20px}
+  .q{margin-top:7px}
+  .sub{margin-top:8px}
+  .hint{margin-top:14px;padding:12px 14px}
+  .nav{margin-top:18px}
+  .wish__me{width:38px;height:38px}
+  .wish__t{padding:10px 13px;font-size:13px}
+}
 .opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;
   padding:15px 18px;border-radius:14px;background:var(--white);
-  box-shadow:inset 0 0 0 1px var(--line);
-  transition:box-shadow var(--t-fast),transform var(--t-fast),background var(--t-fast)}
-.opt:hover{box-shadow:inset 0 0 0 1px rgba(49,55,70,.34);transform:translateX(3px)}
+  box-shadow:inset 0 0 0 1.5px rgba(153,159,79,.55);
+  transition:box-shadow var(--t-fast),transform var(--t-fast),background var(--t-fast),color var(--t-fast)}
+.opt:hover{box-shadow:inset 0 0 0 1.5px var(--olive);transform:translateX(3px)}
 .opt:active{transform:translateX(3px) scale(.995)}
-.opt.is-on{box-shadow:inset 0 0 0 2px var(--olive);background:var(--white)}
-.opt__box{position:relative;flex:none;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line)}
-.opt.-multi .opt__box{border-radius:7px}
+.opt.is-on{background:var(--olive);color:var(--white);box-shadow:inset 0 0 0 1.5px var(--olive)}
+.opt.is-on .opt__box{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.75)}
+.opt.is-on .opt__box::after{background:var(--white)}
+.opt.is-on .opt__box svg{color:var(--olive)}
+.opt.is-on .opt__k{color:rgba(255,255,255,.75);opacity:1}
+.opt__box{position:relative;flex:none;width:22px;height:22px;border-radius:7px;box-shadow:inset 0 0 0 1.2px rgba(49,55,70,.22)}
 .opt__box::after{content:'';position:absolute;inset:0;border-radius:inherit;background:var(--olive);
   transform:scale(.4);opacity:0;transition:transform var(--t-fast),opacity var(--t-fast)}
 .opt.is-on .opt__box::after{transform:scale(1);opacity:1}
 .opt__box svg{position:relative;z-index:1;width:22px;height:22px;color:var(--white);opacity:0;transition:opacity var(--t-fast)}
 .opt.is-on .opt__box svg{opacity:1}
-.opt__t{flex:1}
-.opt__t b{display:block;font-weight:500}
-.opt__t span{display:block;margin-top:1px;font-size:var(--fs-sm);color:var(--gray)}
+.opt__t{flex:1;font-weight:500}
 .opt__k{flex:none;width:20px;text-align:center;font-size:var(--fs-xs);color:var(--gray);opacity:.5}
 @media(max-width:940px){.opt__k{display:none}}
 
@@ -168,19 +196,7 @@ input{caret-color:var(--olive-d)}
 .back svg{width:14px;height:14px}
 
 /* ── Екран контактів ─────────────────────────────────────── */
-.lots{display:grid;gap:10px;margin-top:22px}
-.lot{display:flex;align-items:baseline;gap:14px;padding:16px 18px;border-radius:14px;background:var(--white);box-shadow:var(--shadow)}
-.lot.-pick{box-shadow:0 10px 30px rgba(49,55,70,.07),inset 0 0 0 2px var(--yellow)}
-.lot__m{flex:1;min-width:0}
-.lot__m b{font-weight:500}
-.lot__m span{display:block;margin-top:2px;font-size:var(--fs-sm);color:var(--gray)}
-.lot__p{font-weight:600;white-space:nowrap}
-.lot__p i{display:block;font-style:normal;font-weight:400;font-size:var(--fs-xs);color:var(--gray);text-align:right;margin-top:2px}
-.lot.-none{display:block;background:var(--olive-tint);box-shadow:none;color:var(--olive-d);font-size:var(--fs-sm)}
-@media(max-width:560px){.lot{flex-wrap:wrap;gap:6px}.lot__p{width:100%;text-align:left}.lot__p i{text-align:left}}
 
-.locked{display:flex;gap:11px;margin-top:14px;padding:15px 17px;border-radius:14px;background:rgba(49,55,70,.045);font-size:var(--fs-sm);color:var(--navy);line-height:1.5}
-.locked svg{flex:none;width:17px;height:17px;margin-top:2px;color:var(--olive-d)}
 
 .form{margin-top:20px;display:grid;gap:10px}
 .fld{position:relative}
@@ -201,9 +217,6 @@ input{caret-color:var(--olive-d)}
 .way.is-on{box-shadow:inset 0 0 0 2px var(--olive)}
 .way svg{width:16px;height:16px;color:var(--olive-d)}
 .legal{margin-top:6px;font-size:var(--fs-xs);color:var(--gray);line-height:1.5;max-width:48ch}
-.trust{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line-soft);
-  font-size:var(--fs-xs);color:var(--gray)}
-.trust b{font-weight:500;color:var(--navy)}
 
 /* ── Подяка ──────────────────────────────────────────────── */
 .done__mark{width:54px;height:54px;border-radius:50%;background:var(--olive);display:grid;place-items:center;color:var(--white);
@@ -244,6 +257,13 @@ input{caret-color:var(--olive-d)}
 .win.-lit{fill:#EFDCA0}
 .scene text{font-family:'ProbaPro',system-ui,sans-serif}
 .scene #flatplan{transition:opacity var(--t-fast)}
+.ped-a{animation:pedR 26s linear infinite}
+.ped-b{animation:pedL 34s linear infinite;animation-delay:-11s}
+@keyframes pedR{from{transform:translate(-34px,409px)}to{transform:translate(676px,409px)}}
+@keyframes pedL{from{transform:translate(676px,406px) scaleX(-1)}to{transform:translate(-34px,406px) scaleX(-1)}}
+.sw-a,.sw-b{transform-box:fill-box;transform-origin:top center;animation:swing .62s ease-in-out infinite alternate}
+.sw-b{animation-direction:alternate-reverse}
+@keyframes swing{from{transform:rotate(-17deg)}to{transform:rotate(17deg)}}
 .scene .sc{display:none}
 .scene[data-house="low"] .sc-low,.scene[data-house="high"] .sc-high,.scene[data-house="town"] .sc-town{display:block}
 
@@ -337,11 +357,10 @@ input{caret-color:var(--olive-d)}
           </g>
 
           <!-- земля -->
-          <path d="M0 316c116-9 214-11 320-7s212 4 320-5v136H0z" fill="url(#lawn)"/>
-          <path d="M0 402c140-16 260-16 400-6s180 10 240 6v38H0z" fill="var(--olive)" opacity=".07"/>
+          <path d="M0 316c116-9 214-11 320-7s212 4 320-5v80H0z" fill="url(#lawn)"/>
           <path d="M0 316c116-9 214-11 320-7s212 4 320-5" fill="none" stroke="var(--olive)" stroke-width="1.2" opacity=".55"/>
           <!-- пішохідна доріжка з плитки -->
-          <path d="M118 440c48-38 120-60 214-68l120-5" fill="none" stroke="#E9E3D8" stroke-width="24" stroke-linecap="round" opacity=".9"/>
+          <path d="M96 386c56-26 132-34 216-36l112-2" fill="none" stroke="#E9E3D8" stroke-width="20" stroke-linecap="round" opacity=".9"/>
 
           <!-- ── ДРУГИЙ КОРПУС (глибина) ── -->
           <g opacity=".3">
@@ -651,8 +670,8 @@ input{caret-color:var(--olive-d)}
 
           <!-- ставок із містком -->
           <g data-layer="pond" id="l-pond" opacity="0">
-            <ellipse cx="92" cy="360" rx="74" ry="20" fill="var(--olive)" opacity=".3"/>
-            <ellipse cx="92" cy="360" rx="74" ry="20" fill="none" stroke="var(--olive)" stroke-width="1.2" opacity=".55"/>
+            <ellipse cx="88" cy="356" rx="66" ry="17" fill="var(--olive)" opacity=".3"/>
+            <ellipse cx="88" cy="356" rx="66" ry="17" fill="none" stroke="var(--olive)" stroke-width="1.2" opacity=".55"/>
             <path d="M66 362c8-4 16-4 24 0s16 4 24 0" stroke="#fff" stroke-width="1.2" fill="none" opacity=".7"/>
             <g stroke="#9E7B5A" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".85">
               <path d="M52 358c14-14 42-14 56 0"/><path d="M52 364c14-14 42-14 56 0"/>
@@ -698,7 +717,7 @@ input{caret-color:var(--olive-d)}
             </g>
             <!-- кущі вздовж доріжки -->
             <g fill="var(--olive)" opacity=".5">
-              <ellipse cx="196" cy="408" rx="17" ry="10"/><ellipse cx="226" cy="400" rx="12" ry="8"/>
+              <ellipse cx="174" cy="374" rx="16" ry="9"/><ellipse cx="202" cy="368" rx="11" ry="7"/>
               <ellipse cx="436" cy="344" rx="15" ry="9"/><ellipse cx="458" cy="340" rx="10" ry="7"/>
             </g>
           </g>
@@ -706,34 +725,34 @@ input{caret-color:var(--olive-d)}
           <!-- алея: лавка + дерева вздовж доріжки -->
           <g data-layer="alley" id="l-alley" opacity="0">
             <g>
-              <path d="M262 388v-24" stroke="#7A5C43" stroke-width="2.6" fill="none"/><circle cx="262" cy="356" r="15" fill="var(--olive)" opacity=".7"/>
-              <path d="M318 376v-22" stroke="#7A5C43" stroke-width="2.4" fill="none"/><circle cx="318" cy="346" r="13" fill="var(--olive)" opacity=".7"/>
+              <path d="M266 366v-22" stroke="#7A5C43" stroke-width="2.6" fill="none"/><circle cx="266" cy="336" r="15" fill="var(--olive)" opacity=".7"/>
+              <path d="M322 356v-20" stroke="#7A5C43" stroke-width="2.4" fill="none"/><circle cx="322" cy="328" r="13" fill="var(--olive)" opacity=".7"/>
             </g>
             <g stroke="var(--navy)" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".8">
-              <path d="M212 410h34M214 410v7M244 410v7M212 404h34M215 398h28"/>
+              <path d="M204 374h34M206 374v7M236 374v7M204 368h34M207 362h28"/>
             </g>
             <g stroke="var(--navy)" stroke-width="1.4" fill="none" opacity=".55">
-              <path d="M356 366v-26"/><path d="M350 340h12"/>
+              <path d="M360 346v-22"/><path d="M354 324h12"/>
             </g>
           </g>
 
           <!-- майданчик -->
           <g data-layer="play" id="l-play" opacity="0">
-            <ellipse cx="500" cy="412" rx="66" ry="16" fill="var(--yellow)" opacity=".2"/>
+            <ellipse cx="500" cy="376" rx="62" ry="14" fill="var(--yellow)" opacity=".2"/>
             <g fill="none" stroke="var(--navy)" stroke-width="1.6" stroke-linecap="round">
-              <path d="M462 412v-34l22-14 22 14v34"/><path d="M484 364v12"/><path d="M472 376v20M496 376v20"/>
+              <path d="M462 376v-32l22-13 22 13v32"/><path d="M484 331v12"/><path d="M472 343v18M496 343v18"/>
             </g>
-            <rect x="466" y="396" width="12" height="5" rx="1.5" fill="var(--yellow)"/>
-            <rect x="490" y="396" width="12" height="5" rx="1.5" fill="var(--yellow)"/>
-            <path d="M520 412v-26h28z" fill="var(--yellow)" opacity=".7"/>
-            <path d="M520 412v-26h28" stroke="var(--navy)" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
-            <path d="M548 386v26" stroke="var(--navy)" stroke-width="1.6"/>
+            <rect x="466" y="361" width="12" height="5" rx="1.5" fill="var(--yellow)"/>
+            <rect x="490" y="361" width="12" height="5" rx="1.5" fill="var(--yellow)"/>
+            <path d="M520 376v-24h26z" fill="var(--yellow)" opacity=".7"/>
+            <path d="M520 376v-24h26" stroke="var(--navy)" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+            <path d="M546 352v24" stroke="var(--navy)" stroke-width="1.6"/>
           </g>
 
           <!-- паркінг -->
           <g data-layer="parking" id="l-parking" opacity="0">
-            <path d="M30 430h160M46 406h30M86 406h30M126 406h30" stroke="var(--navy)" stroke-width="1.3" opacity=".38" fill="none"/>
-            <g transform="translate(44 382)">
+            <path d="M24 378h150M40 356h28M78 356h28M116 356h28" stroke="var(--navy)" stroke-width="1.3" opacity=".3" fill="none"/>
+            <g transform="translate(38 350)">
               <ellipse cx="26" cy="26" rx="30" ry="5" fill="var(--navy)" opacity=".14"/>
               <path d="M2 22h48v-9l-8-12H12L2 13z" fill="var(--cream)" stroke="var(--navy)" stroke-width="1.5" stroke-linejoin="round"/>
               <path d="M12 13h28" stroke="var(--navy)" stroke-width="1.2"/>
@@ -741,17 +760,37 @@ input{caret-color:var(--olive-d)}
             </g>
           </g>
 
-          <!-- охорона -->
+          <!-- огорожа по периметру території -->
           <g data-layer="sec" id="l-sec" opacity="0">
-            <g stroke="var(--navy)" stroke-width="1.5" fill="none" stroke-linecap="round">
-              <path d="M600 420v-38"/><path d="M592 382h16"/>
-              <path d="M596 388h-56" stroke="var(--yellow-d)" stroke-width="5"/>
-              <path d="M540 388h-10"/>
-              <path d="M628 356v-14h-16v14"/>
+            <g stroke="var(--navy)" stroke-width="1.5" opacity=".34" fill="none"><path d="M8 382v13"/><path d="M22 382v13"/><path d="M36 382v13"/><path d="M50 382v13"/><path d="M64 382v13"/><path d="M78 382v13"/><path d="M92 382v13"/><path d="M106 382v13"/><path d="M120 382v13"/><path d="M134 382v13"/><path d="M148 382v13"/><path d="M162 382v13"/><path d="M176 382v13"/><path d="M190 382v13"/><path d="M204 382v13"/><path d="M218 382v13"/><path d="M232 382v13"/><path d="M246 382v13"/><path d="M260 382v13"/><path d="M274 382v13"/><path d="M288 382v13"/><path d="M302 382v13"/><path d="M316 382v13"/><path d="M330 382v13"/><path d="M344 382v13"/><path d="M358 382v13"/><path d="M372 382v13"/><path d="M386 382v13"/><path d="M400 382v13"/><path d="M414 382v13"/><path d="M428 382v13"/><path d="M442 382v13"/><path d="M456 382v13"/><path d="M470 382v13"/><path d="M484 382v13"/><path d="M498 382v13"/><path d="M512 382v13"/><path d="M526 382v13"/><path d="M540 382v13"/><path d="M554 382v13"/><path d="M568 382v13"/><path d="M582 382v13"/><path d="M596 382v13"/><path d="M610 382v13"/><path d="M624 382v13"/><path d="M638 382v13"/></g>
+            <path d="M0 382h640M0 395h640" stroke="var(--navy)" stroke-width="1.8" opacity=".44" fill="none"/>
+            <rect x="8" y="374" width="5" height="22" fill="var(--navy)" opacity=".42"/><circle cx="10.5" cy="372" r="2.8" fill="var(--navy)" opacity=".42"/><rect x="92" y="374" width="5" height="22" fill="var(--navy)" opacity=".42"/><circle cx="94.5" cy="372" r="2.8" fill="var(--navy)" opacity=".42"/><rect x="176" y="374" width="5" height="22" fill="var(--navy)" opacity=".42"/><circle cx="178.5" cy="372" r="2.8" fill="var(--navy)" opacity=".42"/><rect x="260" y="374" width="5" height="22" fill="var(--navy)" opacity=".42"/><circle cx="262.5" cy="372" r="2.8" fill="var(--navy)" opacity=".42"/><rect x="400" y="374" width="5" height="22" fill="var(--navy)" opacity=".42"/><circle cx="402.5" cy="372" r="2.8" fill="var(--navy)" opacity=".42"/><rect x="484" y="374" width="5" height="22" fill="var(--navy)" opacity=".42"/><circle cx="486.5" cy="372" r="2.8" fill="var(--navy)" opacity=".42"/><rect x="568" y="374" width="5" height="22" fill="var(--navy)" opacity=".42"/><circle cx="570.5" cy="372" r="2.8" fill="var(--navy)" opacity=".42"/><rect x="632" y="374" width="5" height="22" fill="var(--navy)" opacity=".42"/><circle cx="634.5" cy="372" r="2.8" fill="var(--navy)" opacity=".42"/>
+            <g stroke="var(--navy)" stroke-width="1.8" opacity=".5" fill="none">
+              <rect x="298" y="368" width="32" height="28"/><rect x="330" y="368" width="32" height="28"/>
+              <path d="M308 396v-24M319 396v-24M341 396v-24M352 396v-24"/>
             </g>
-            <circle cx="620" cy="350" r="2.6" fill="var(--navy)"/>
-            <g stroke="var(--navy)" stroke-width="1.2" opacity=".4" fill="none">
-              <path d="M528 404v-24M540 404v-24M552 404v-24M564 404v-24M576 404v-24"/><path d="M524 380h56"/>
+            <g stroke="var(--navy)" stroke-width="1.4" opacity=".26" fill="none">
+              <path d="M8 374l-10 8M634 374l10 8"/>
+            </g>
+          </g>
+
+          <!-- тротуар і дорога -->
+          <rect x="0" y="396" width="640" height="18" fill="#EDEAE3"/>
+          <g stroke="#DBD6CB" stroke-width="1" opacity=".8" fill="none"><path d="M0 396v18"/><path d="M22 396v18"/><path d="M44 396v18"/><path d="M66 396v18"/><path d="M88 396v18"/><path d="M110 396v18"/><path d="M132 396v18"/><path d="M154 396v18"/><path d="M176 396v18"/><path d="M198 396v18"/><path d="M220 396v18"/><path d="M242 396v18"/><path d="M264 396v18"/><path d="M286 396v18"/><path d="M308 396v18"/><path d="M330 396v18"/><path d="M352 396v18"/><path d="M374 396v18"/><path d="M396 396v18"/><path d="M418 396v18"/><path d="M440 396v18"/><path d="M462 396v18"/><path d="M484 396v18"/><path d="M506 396v18"/><path d="M528 396v18"/><path d="M550 396v18"/><path d="M572 396v18"/><path d="M594 396v18"/><path d="M616 396v18"/><path d="M638 396v18"/></g>
+          <path d="M0 396h640" stroke="#D6D1C5" stroke-width="1.6"/>
+          <rect x="0" y="414" width="640" height="26" fill="#D6D7D3"/>
+          <path d="M0 415h640" stroke="#C3C4BF" stroke-width="1.4"/>
+          <path d="M0 429h640" stroke="#F3F3F0" stroke-width="2.6" stroke-dasharray="16 14"/>
+          <g class="peds" stroke="var(--navy)" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".78">
+            <g class="ped ped-a">
+              <circle cx="0" cy="-22" r="4.4"/><path d="M0 -17.6v12"/>
+              <path class="sw-a" d="M0 -15l-6 9"/><path class="sw-b" d="M0 -15l6 9"/>
+              <path class="sw-b" d="M0 -5.6l-5 10.6"/><path class="sw-a" d="M0 -5.6l5 10.6"/>
+            </g>
+            <g class="ped ped-b">
+              <circle cx="0" cy="-20" r="4"/><path d="M0 -16v11"/>
+              <path class="sw-b" d="M0 -13.5l-5.4 8"/><path class="sw-a" d="M0 -13.5l5.4 8"/>
+              <path class="sw-a" d="M0 -5l-4.6 9.6"/><path class="sw-b" d="M0 -5l4.6 9.6"/>
             </g>
           </g>
 
@@ -771,6 +810,14 @@ input{caret-color:var(--olive-d)}
     <div class="scene-cap" id="chips"></div>
   </section>
 
+    <div class="wish" id="wish" hidden>
+      <svg class="wish__me" viewBox="0 0 44 44" fill="none" stroke="var(--olive-d)" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="18" cy="17" r="7.6"/><path d="M6 41c0-6.6 5.4-12 12-12s12 5.4 12 12"/>
+        <circle cx="33" cy="7.5" r="3.4"/><circle cx="27.5" cy="12.5" r="2"/><circle cx="24" cy="16.5" r="1.2"/>
+      </svg>
+      <p class="wish__t"></p>
+    </div>
+
   <!-- ══ Питання ══ -->
   <section class="ask-col">
     <div id="resume"></div>
@@ -783,18 +830,10 @@ input{caret-color:var(--olive-d)}
    CONFIG — усе, що змінює відділ маркетингу, лежить тут.
    ════════════════════════════════════════════════════════════ */
 const CONFIG = {
-  rate: 42.8,                    // ₴ за $1 — ОНОВИТИ перед запуском
-  stockDate: '1 вересня',
   phone: '+380675550000',        // ПІДСТАВИТИ робочий номер відділу продажу
   botUrl: 'https://t.me/ps_ai_sales_bot',
   siteUrl: 'https://park-sovinon.ua',
-  ppm: { build: 960, ready: 990 },        // $/м², як у лід-формі Meta
-  stock: {                                 // залишки G-Plus CRM, 01.09.2026
-    s1: { n: 24, sq: '43,2–49,1', usd: 46699, house: 8 },
-    s2ready: { n: 12, sq: '67,7–74,4', usd: 71085, house: 7 },
-    s2build: { n: 26, sq: '64,9–70,4', usd: 70103, house: 8 },
-    s3: { n: 4, sq: '90,5–91,9', usd: 92814, house: 7 }
-  },
+  ppm: { build: 960, ready: 990 },        // у.о. за м²
   crm: {
     enabled: false,              // ⚠️ ПРОТОТИП: true — і заявки підуть у бойову CRM
     url: 'https://crm.g-plus.app/api/actions',
@@ -803,69 +842,67 @@ const CONFIG = {
   }
 };
 
-const uah = usd => Math.ceil(usd * CONFIG.rate / 1000) * 1000;
-const fmt = n => n.toLocaleString('uk-UA').replace(/ /g,' ');
-const ppmUah = usd => fmt(Math.round(usd * CONFIG.rate / 100) * 100);
 
-/* ── Питання: 1:1 з лід-формою Meta ─────────────────────── */
+/* ── Питання: склад як у лід-формі Meta, порядок — район першим ── */
 const Q = [
-{ id:'flat', q:'Яку квартиру ви розглядаєте?', multi:false,
-  hint:'',
+{ id:'district', q:'Який район розглядаєте окрім Совіньйону?', multi:true,
+  hint:'У комплексі «Парк Совіньйон» усе потрібне поруч: продуктовий — дві хвилини пішки, море — п’ятнадцять, школа — 10 хвилин автівкою, лікарня — 15.',
   opts:[
-    {t:'Смарт', n:'до 30 м²', v:'smart', s:{rooms:'0'}},
-    {t:'1-кімнатну', n:'від 43,24 м²', v:'1k', s:{rooms:'1'}},
-    {t:'2-кімнатну', n:'від 64,91 м²', v:'2k', s:{rooms:'2'}},
-    {t:'3-кімнатну', n:'від 90,55 м²', v:'3k', s:{rooms:'3'}},
+    {t:'Центр', v:'centre', ph:'у Центрі', s:{city:1}},
+    {t:'Аркадія', v:'arcadia', ph:'в Аркадії', s:{sea:1}},
+    {t:'Таїрова', v:'tairova', ph:'на Таїрова', s:{}},
+    {t:'Селище Котовського', v:'kotovsky', ph:'на Селищі Котовського', s:{}}
+  ]},
+{ id:'flat', q:'Яку квартиру ви розглядаєте?', multi:false, hint:'',
+  opts:[
+    {t:'Смарт · до 30 м²', v:'smart', ph:'смарт-квартиру', s:{rooms:'0'}},
+    {t:'1-кімнатну · від 43,24 м²', v:'1k', ph:'1-кімнатну', s:{rooms:'1'}},
+    {t:'2-кімнатну · від 64,91 м²', v:'2k', ph:'2-кімнатну', s:{rooms:'2'}},
+    {t:'3-кімнатну · від 90,55 м²', v:'3k', ph:'3-кімнатну', s:{rooms:'3'}},
     {t:'Ще не визначився / визначилася', v:'any', s:{rooms:'?'}}
   ]},
 { id:'fit', q:'Бажана стадія ремонту квартири', multi:false,
   hint:'У кожній квартирі вже є стяжка, п’ятикамерні вікна та власний двоконтурний газовий котел — ремонт починається не з нуля.',
   opts:[
-    {t:'Без ремонту', v:'none', s:{fit:'none'}},
-    {t:'З ремонтом', v:'repair', s:{fit:'repair'}},
-    {t:'З ремонтом і меблями', v:'full', s:{fit:'full'}},
+    {t:'Без ремонту', v:'none', ph:'без ремонту', s:{fit:'none'}},
+    {t:'З ремонтом', v:'repair', ph:'з ремонтом', s:{fit:'repair'}},
+    {t:'З ремонтом і меблями', v:'full', ph:'з ремонтом і меблями', s:{fit:'full'}},
     {t:'Розглядаю всі варіанти', v:'any', s:{fit:'repair'}}
   ]},
 { id:'stage', q:'Будинок на якій стадії будівництва вас цікавить?', multi:false,
-  hint:'Будинок №7 зданий — ключі одразу. Будинок №8 — здача у IV кварталі 2026 року.',
+  hint:'Є готові квартири — ключі одразу, і квартири в будинку, що будується: здача у IV кварталі 2026 року.',
   opts:[
-    {t:'На стадії будівництва', n:`від ${ppmUah(CONFIG.ppm.build)} ₴/м² · дім №8`, v:'build', s:{stage:'build'}},
-    {t:'Зданий будинок', n:`від ${ppmUah(CONFIG.ppm.ready)} ₴/м² · дім №7`, v:'ready', s:{stage:'ready'}}
-  ]},
-{ id:'district', q:'Який район розглядаєте?', multi:true,
-  hint:'У комплексі «Парк Совіньйон» усе потрібне поруч: продуктовий — дві хвилини пішки, море — п’ятнадцять, школа — 10 хвилин автівкою, лікарня — 15.',
-  opts:[
-    {t:'Центр', v:'centre', s:{city:1}},
-    {t:'Аркадія', v:'arcadia', s:{sea:1}},
-    {t:'Таїрова', v:'tairova', s:{}},
-    {t:'Селище Котовського', v:'kotovsky', s:{}},
-    {t:'Район елітного класу Совіньйон', v:'sauvignon', s:{sea:1}}
+    {t:`На стадії будівництва · від ${CONFIG.ppm.build} у.о./м²`, v:'build', ph:'у будинку, що будується', s:{stage:'build'}},
+    {t:`У зданому будинку · від ${CONFIG.ppm.ready} у.о./м²`, v:'ready', ph:'у зданому будинку', s:{stage:'ready'}}
   ]},
 { id:'house', q:'В якому будинку ви бажаєте жити?', multi:false,
   hint:'«Парк Совіньйон» — малоповерховий комплекс: не більше шести квартир на поверсі.',
   opts:[
-    {t:'У малоповерховому будинку', v:'low', s:{house:'low'}},
-    {t:'У багатоповерховому будинку', v:'high', s:{house:'high'}},
-    {t:'Окремий будинок або таунхаус', v:'town', s:{house:'town'}}
+    {t:'У малоповерховому будинку', v:'low', ph:'малоповерховий будинок', s:{house:'low'}},
+    {t:'У багатоповерховому будинку', v:'high', ph:'багатоповерховий будинок', s:{house:'high'}},
+    {t:'Окремий будинок або таунхаус', v:'town', ph:'окремий будинок або таунхаус', s:{house:'town'}}
   ]},
 { id:'value', q:'Що для вас важливо в житловому комплексі?', multi:true,
   hint:'На території — власний парк із понад 1000 дерев і ставками, безкоштовний паркінг біля будинку, в’їзд за номером авто.',
   opts:[
-    {t:'Дитячий майданчик', v:'play', s:{play:1}},
-    {t:'Паркові зони та місця для прогулянок', v:'park', s:{alley:1,pond:1}},
-    {t:'Безкоштовний паркінг', v:'parking', s:{parking:1}},
-    {t:'Закрита територія під охороною', v:'sec', s:{sec:1}}
+    {t:'Дитячий майданчик', v:'play', ph:'дитячий майданчик', s:{play:1}},
+    {t:'Паркові зони та місця для прогулянок', v:'park', ph:'паркові зони', s:{alley:1,pond:1}},
+    {t:'Безкоштовний паркінг', v:'parking', ph:'безкоштовний паркінг', s:{parking:1}},
+    {t:'Закрита територія під охороною', v:'sec', ph:'закрита територія під охороною', s:{sec:1}},
+    {t:'Індивідуальне газове опалення', v:'gas', ph:'індивідуальне газове опалення', s:{}}
   ]},
 { id:'time', q:'Коли з вами зв’язатися?', sub:'Час за Києвом. Можна обрати кілька вікон.', multi:true,
   hint:'Телефонуємо один раз і лише у вибраний час. Якщо зручніше листуванням — оберіть месенджер на наступному кроці.',
   opts:[
-    {t:'З 9:00 до 11:00', v:'9-11', s:{time:0}},
-    {t:'З 11:00 до 13:00', v:'11-13', s:{time:1}},
-    {t:'З 13:00 до 15:00', v:'13-15', s:{time:2}},
-    {t:'З 15:00 до 17:00', v:'15-17', s:{time:3}},
-    {t:'З 17:00 до 19:00', v:'17-19', s:{time:4}}
+    {t:'З 9:00 до 11:00', v:'9-11', ph:'з 9:00 до 11:00', s:{time:0}},
+    {t:'З 11:00 до 13:00', v:'11-13', ph:'з 11:00 до 13:00', s:{time:1}},
+    {t:'З 13:00 до 15:00', v:'13-15', ph:'з 13:00 до 15:00', s:{time:2}},
+    {t:'З 15:00 до 17:00', v:'15-17', ph:'з 15:00 до 17:00', s:{time:3}},
+    {t:'З 17:00 до 19:00', v:'17-19', ph:'з 17:00 до 19:00', s:{time:4}}
   ]}
 ];
+const QI = id => Q.find(q=>q.id===id);
+const optOf = (id,v) => (QI(id).opts.find(o=>o.v===v)||{});
 
 /* ── Стан ────────────────────────────────────────────────── */
 const KEY='psq.v1';
@@ -987,6 +1024,33 @@ const ICO={
   call:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 16.6v2.8a1.9 1.9 0 0 1-2.1 1.9 18.8 18.8 0 0 1-8.2-2.9 18.5 18.5 0 0 1-5.7-5.7A18.8 18.8 0 0 1 2.6 4.5 1.9 1.9 0 0 1 4.5 2.4h2.8a1.9 1.9 0 0 1 1.9 1.6c.1 1 .4 1.8.7 2.7a1.9 1.9 0 0 1-.4 2l-1.2 1.2a15 15 0 0 0 5.7 5.7l1.2-1.2a1.9 1.9 0 0 1 2-.4c.9.3 1.7.6 2.7.7a1.9 1.9 0 0 1 1.6 1.9z"/></svg>'
 };
 
+
+/* ── Речення «Я хочу…» з відповідей ─────────────────────── */
+function wishText(){
+  const ph=(id,v)=>optOf(id,v).ph;
+  const many=id=>(ans[id]||[]).map(v=>ph(id,v)).filter(Boolean);
+  const one=id=>ans[id]?ph(id,ans[id]):null;
+  const segs=[];
+  const dis=many('district'); if(dis.length) segs.push(dis.join(' або '));
+  const tf=[one('flat'),one('fit')].filter(Boolean).join(' '); if(tf) segs.push(tf);
+  const st=one('stage'); if(st) segs.push(st);
+  const out=['Я хочу квартиру'+(segs.length?' '+segs.join(', '):'')+'.'];
+  const h=ans.house;
+  if(h==='town') out.push('Хочу окремий будинок або таунхаус.');
+  else if(h) out.push(`Хочу, щоб це був ${ph('house',h)}.`);
+  const val=many('value'); if(val.length) out.push(`Для мене важливо: ${val.join(', ')}.`);
+  const t=many('time'); if(t.length) out.push(`Звʼяжіться зі мною ${t.join(' або ')}.`);
+  return out.join(' ');
+}
+function renderWish(){
+  const box=document.getElementById('wish'); if(!box) return;
+  const any=Object.keys(ans).some(k=>k!=='way'&&(Array.isArray(ans[k])?ans[k].length:ans[k]));
+  box.hidden=!any;
+  const t=box.querySelector('.wish__t');
+  const txt=wishText();
+  if(t.textContent!==txt){ t.textContent=txt; t.classList.remove('is-new'); void t.offsetWidth; t.classList.add('is-new'); }
+}
+
 /* ── Рендер кроку ────────────────────────────────────────── */
 function render(){
   save();
@@ -996,7 +1060,7 @@ function render(){
   if(step<Q.length) renderQ(Q[step]);
   else if(step===Q.length) renderContact();
   stepAt=Date.now();
-  paint(); renderChips();
+  paint(); renderChips(); renderWish();
   if(step>0) window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1011,7 +1075,7 @@ function renderQ(q){
       ${q.opts.map((o,i)=>`
         <button class="opt ${q.multi?'-multi':''} ${isOn(o.v)?'is-on':''}" data-i="${i}">
           <span class="opt__box">${ICO.check}</span>
-          <span class="opt__t"><b>${o.t}</b>${o.n?`<span>${o.n}</span>`:''}</span>
+          <span class="opt__t">${o.t}</span>
           <span class="opt__k">${i+1}</span>
         </button>`).join('')}
     </div>
@@ -1037,12 +1101,12 @@ function pick(q,i){
     if(on && o.s) Object.keys(o.s).forEach(k=>{ if(typeof S[k]==='number') S[k]=0; });
     card.querySelectorAll('.opt')[i].classList.toggle('is-on',!on);
     const nb=document.getElementById('next'); if(nb) nb.disabled = !ans[q.id].length;
-    paint(); renderChips(); save();
+    paint(); renderChips(); renderWish(); save();
     track('quiz_answer',{step:step+1,question:q.id,value:o.v,multi:true,ms:Date.now()-stepAt});
   } else {
     ans[q.id]=o.v; Object.assign(S,o.s||{});
     card.querySelectorAll('.opt').forEach((b,j)=>b.classList.toggle('is-on',j===i));
-    paint(); renderChips(); save();
+    paint(); renderChips(); renderWish(); save();
     track('quiz_answer',{step:step+1,question:q.id,value:o.v,ms:Date.now()-stepAt});
     setTimeout(()=>go(step+1),260);
   }
@@ -1063,38 +1127,12 @@ function renderChips(){
   box.querySelectorAll('button').forEach(b=>b.onclick=()=>{track('quiz_chip_edit',{step:+b.dataset.s+1});go(+b.dataset.s)});
 }
 
-/* ── Підбірка лотів ──────────────────────────────────────── */
-function lots(){
-  const f=ans.flat, st=ans.stage, S_=CONFIG.stock, out=[];
-  const card=(k,rooms,house,when)=>({
-    title:`${rooms} · ${S_[k].sq} м²`,
-    meta:`Будинок №${S_[k].house} · ${when} · у продажу ${S_[k].n}`,
-    price:`від ${fmt(uah(S_[k].usd))} ₴`
-  });
-  const one=()=>card('s1','1-кімнатна','8','здача IV кв. 2026');
-  const twoR=()=>card('s2ready','2-кімнатна','7','зданий, ключі одразу');
-  const twoB=()=>card('s2build','2-кімнатна','8','здача IV кв. 2026');
-  const three=()=>card('s3','3-кімнатна','7','зданий, ключі одразу');
-  if(f==='1k'||f==='smart') out.push(one(), twoB());
-  else if(f==='2k') out.push(st==='ready'?twoR():twoB(), st==='ready'?twoB():twoR());
-  else if(f==='3k') out.push(three(), twoR());
-  else out.push(one(), twoR());
-  if(f==='smart') out.unshift({none:'Смарт-планувань зараз немає у продажу — найближче за бюджетом однокімнатні від 43,2 м².'});
-  return out;
-}
 
 /* ── Екран контактів ─────────────────────────────────────── */
 function renderContact(){
-  const times=(ans.time||[]).map(v=>Q[6].opts.find(o=>o.v===v).t.replace('З ','')).join(', ');
   card.className='enter'; card.innerHTML=`
-    <div class="step-no">Готово · останній крок</div>
-    <h1 class="q">Куди надіслати <span class="em">підбірку</span>?</h1>
-    <div class="lots">
-      ${lots().map(l=>l.none?`<div class="lot -none">${l.none}</div>`:`
-        <div class="lot"><div class="lot__m"><b>${l.title}</b><span>${l.meta}</span></div>
-        <div class="lot__p">${l.price}<i>розтермінування без подорожчання</i></div></div>`).join('')}
-    </div>
-    <div class="locked">${ICO.lock}<span>Номер потрібен, щоб надіслати повну підбірку: планування, вільні поверхи та графік платежів. Телефонуємо один раз${times?` — у вибраний вами час (${times})`:''}.</span></div>
+    <div class="step-no">Останній крок</div>
+    <h1 class="q">Залиште <span class="em">свої контакти</span></h1>
     <form class="form" id="lead" novalidate>
       <div class="fld" id="f-name"><input id="name" name="name" placeholder=" " autocomplete="given-name" required><label for="name">Ваше ім’я</label></div>
       <div class="fld" id="f-phone"><input id="phone" name="phone" type="tel" inputmode="numeric" placeholder=" " autocomplete="tel" value="+380"><label for="phone">Телефон</label></div>
@@ -1105,18 +1143,15 @@ function renderContact(){
         <button type="button" class="way" data-w="whatsapp">${ICO.chat}WhatsApp</button>
         <button type="button" class="way" data-w="call">${ICO.call}Дзвінок</button>
       </div>
-      <button class="btn -yellow -full" type="submit" id="send" style="margin-top:8px">Отримати підбірку<i class="arr"></i></button>
+      <button class="btn -yellow -full" type="submit" id="send" style="margin-top:8px">Відправити форму<i class="arr"></i></button>
       <p class="legal">Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних. Дані нікому не передаються.</p>
     </form>
-    <div class="trust">
-      <span><b>ЗАРС</b> — 30 років на ринку Одеси</span>
-    </div>
     <div class="nav"><button class="back" id="back">${ICO.back}Назад</button></div>`;
-  document.getElementById('back').onclick=()=>{track('quiz_back',{step:8});go(step-1)};
+  document.getElementById('back').onclick=()=>{track('quiz_back',{step:Q.length+1});go(step-1)};
   const ways=document.getElementById('ways');
   ways.onclick=e=>{const b=e.target.closest('.way'); if(!b)return;
     ways.querySelectorAll('.way').forEach(x=>x.classList.toggle('is-on',x===b));
-    ans.way=b.dataset.w; track('quiz_answer',{step:8,question:'way',value:b.dataset.w});};
+    ans.way=b.dataset.w; track('quiz_answer',{step:Q.length+1,question:'way',value:b.dataset.w});};
   ans.way=ans.way||'telegram';
   const ph=document.getElementById('phone');
   ph.addEventListener('input',()=>{let d=ph.value.replace(/\D/g,'');if(d.startsWith('380'))d=d.slice(3);ph.value='+380'+d.slice(0,9);});
@@ -1161,15 +1196,15 @@ function buildNote(name){
 }
 
 function renderDone(name){ /* ім'я не вставляємо в звертання: кличний відмінок не автоматизується */
-  const times=(ans.time||[]).map(v=>Q[6].opts.find(o=>o.v===v).t.replace('З ','')).join(', ');
+  const times=(ans.time||[]).map(v=>optOf('time',v).ph).join(', ');
   document.getElementById('progbar').style.setProperty('--p','1');
   document.getElementById('eta').textContent='Готово';
   document.getElementById('chips').innerHTML='';
   card.className='enter done'; card.innerHTML=`
     <div class="done__mark">${ICO.check}</div>
-    <h1 class="q">Дякуємо! Підбірку вже <span class="em">формуємо</span>.</h1>
+    <h1 class="q">Дякуємо! Форму <span class="em">отримали</span>.</h1>
     <div class="nextsteps">
-      <div><span>1</span><p>Менеджер надішле планування, вільні поверхи та графік платежів у ${({telegram:'Telegram',viber:'Viber',whatsapp:'WhatsApp',call:'повідомленні'})[ans.way]||'месенджер'}.</p></div>
+      <div><span>1</span><p>Менеджер підготує варіанти під ваш запит і напише у ${({telegram:'Telegram',viber:'Viber',whatsapp:'WhatsApp',call:'повідомленні'})[ans.way]||'месенджер'}.</p></div>
       <div><span>2</span><p>${times?`Зателефонуємо у вибраний час: ${times}.`:'Зателефонуємо у робочий час, пн–нд.'}</p></div>
       <div><span>3</span><p>Якщо захочете подивитись наживо — покажемо квартиру й парк у будь-який день.</p></div>
     </div>
