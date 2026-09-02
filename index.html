@@ -110,7 +110,7 @@ input{caret-color:var(--olive-d)}
 @media(max-width:940px){.scene-wrap{border-radius:0;box-shadow:none;background:transparent;
     -webkit-mask-image:linear-gradient(180deg,#000 84%,transparent);mask-image:linear-gradient(180deg,#000 84%,transparent)}}
 .scene{display:block;width:100%;min-width:0;height:auto;aspect-ratio:640/440}
-@media(max-width:940px){.scene{aspect-ratio:640/400;max-height:20svh}}
+@media(max-width:940px){.scene{aspect-ratio:640/374;max-height:none}}
 .chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;
   background:var(--olive-tint);color:var(--olive-d);font-size:var(--fs-xs);font-weight:500;
   animation:chipIn .4s cubic-bezier(.2,.7,.2,1) both}
@@ -123,6 +123,7 @@ input{caret-color:var(--olive-d)}
 .ask-col{padding-top:clamp(20px,4vw,48px);min-height:52svh}
 @media(max-width:940px){.ask-col{padding-top:10px;min-height:0}}
 .wish{display:flex;align-items:flex-start;gap:12px;padding:2px 16px 6px}
+@media(max-width:940px){.wish{display:none}}
 @media(min-width:941px){.wish{padding:6px 16px 2px}}
 .wish__me{flex:none;width:128px;height:94px;margin-top:-8px}
 .wish__t{position:relative;margin:0;padding:11px 14px;border-radius:14px 14px 14px 4px;
@@ -238,6 +239,7 @@ input{caret-color:var(--olive-d)}
 .resume b{font-weight:500}
 .resume button{font-size:var(--fs-sm);font-weight:500;color:var(--olive-d);text-decoration:underline;text-underline-offset:3px}
 .resume button.-mute{color:var(--gray);font-weight:400}
+@media(max-width:940px){.resume{display:none!important}}
 
 /* ── Поява кроку ─────────────────────────────────────────── */
 .enter{animation:enter .42s cubic-bezier(.2,.7,.2,1) both}
@@ -324,7 +326,7 @@ input{caret-color:var(--olive-d)}
   <!-- ══ Сцена ══ -->
   <section class="scene-col" aria-hidden="true">
     <div class="scene-wrap">
-      <svg class="scene" id="scene" viewBox="0 0 640 440" preserveAspectRatio="xMidYMax slice" data-house="low" data-time="2" data-stage="" data-rooms="" data-fit="">
+      <svg class="scene" id="scene" viewBox="0 0 640 440" preserveAspectRatio="xMidYMid meet" data-house="low" data-time="2" data-stage="" data-rooms="" data-fit="">
         <defs>
           <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
             <stop class="sky-a" offset="0"/><stop class="sky-b" offset="1"/>
@@ -1312,10 +1314,14 @@ function placeWish(){
   const host=mqNarrow.matches?document.querySelector('.stage'):document.querySelector('.scene-col');
   if(w.parentElement!==host) host.appendChild(w);
 }
-mqNarrow.addEventListener('change',placeWish);
+function fitScene(){
+  const sc=document.getElementById('scene'); if(!sc) return;
+  sc.setAttribute('viewBox', mqNarrow.matches?'0 66 640 374':'0 0 640 440');
+}
+mqNarrow.addEventListener('change',()=>{placeWish();fitScene();});
 
 /* ── Старт ───────────────────────────────────────────────── */
-placeWish(); restore(); render(); if(DEBUG) renderDbg();
+placeWish(); fitScene(); restore(); render(); if(DEBUG) renderDbg();
 </script>
 </body>
 </html>
