@@ -70,6 +70,9 @@ input{caret-color:var(--olive-d)}
 
 /* ── Шапка ───────────────────────────────────────────────── */
 .hdr{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
+/* ── Вбудований режим (?embed=1): квіз живе в модалці лендингу ── */
+.is-embed .hdr{display:none}
+.is-embed .stage{padding:0 16px 24px}
 .hdr__in{display:flex;align-items:center;gap:16px;max-width:1240px;margin:0 auto;padding:12px clamp(16px,3vw,32px)}
 .hdr__logo img{height:30px;width:auto}
 .hdr__meta{margin-left:auto;display:flex;align-items:center;gap:14px}
@@ -307,6 +310,7 @@ input{caret-color:var(--olive-d)}
 </style>
 </head>
 <body>
+<script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('is-embed');</script>
 
 <header class="hdr">
   <div class="hdr__in">
