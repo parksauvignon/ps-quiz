@@ -1214,6 +1214,10 @@ function submit(e){
       body:new URLSearchParams({action:'partner-custom-form',token:CONFIG.crm.token,partner_id:CONFIG.crm.partnerId,
         name:name.value.trim(),phone:'+'+digits,lang:'ua',note:note,adv_id:'quiz'}).toString()}).catch(()=>{});
   } else { console.log('[quiz] CRM вимкнено (прототип). Note:\n'+note); }
+  // Якщо квіз відкритий у вікні лендингу — віддаємо лід батьківській сторінці,
+  // щоб він пішов у CRM її робочим шляхом і був помічений як лід лендингу.
+  try{ if(window.parent && window.parent!==window){
+    window.parent.postMessage({type:'ps-quiz-lead',name:name.value.trim(),phone:'+'+digits,note:note},'*'); } }catch(e){}
   localStorage.removeItem(KEY);
   renderDone(name.value.trim());
 }
