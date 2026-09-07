@@ -47,6 +47,7 @@
   --t-slow:1.1s cubic-bezier(.2,.7,.2,1);
 
   --sky-a:#eef1f4; --sky-b:#F7F5F2;
+  --hdr-h:65px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
@@ -79,6 +80,7 @@ input{caret-color:var(--olive-d)}
 .is-embed .wish{padding-top:0}
 .hdr__in{display:flex;align-items:center;gap:16px;max-width:1240px;margin:0 auto;padding:12px clamp(16px,3vw,32px)}
 .hdr__logo img{height:30px;width:auto}
+@media(min-width:941px){:root{--hdr-h:85px}.hdr__logo img{height:60px}}
 .hdr__meta{margin-left:auto;display:flex;align-items:center;gap:14px}
 .hdr__time{font-size:var(--fs-xs);letter-spacing:.04em;color:var(--gray);white-space:nowrap}
 @media(max-width:520px){.hdr__time{display:none}}
@@ -88,7 +90,7 @@ input{caret-color:var(--olive-d)}
 .hdr__tel svg{width:14px;height:14px;flex:none}
 
 /* ── Прогрес ─────────────────────────────────────────────── */
-.prog{position:sticky;top:54px;z-index:39;height:2px;background:var(--line-soft)}
+.prog{position:sticky;top:var(--hdr-h);z-index:39;height:2px;background:var(--line-soft)}
 .prog i{display:block;height:100%;background:var(--olive);transform:scaleX(var(--p,0));transform-origin:left;transition:transform var(--t-base)}
 
 /* ── Каркас ──────────────────────────────────────────────── */
@@ -106,7 +108,7 @@ input{caret-color:var(--olive-d)}
 }
 
 /* ── Колонка сцени ───────────────────────────────────────── */
-.scene-col{position:sticky;top:96px;padding-top:clamp(20px,4vw,48px)}
+.scene-col{position:sticky;top:calc(var(--hdr-h) + 30px);padding-top:clamp(20px,4vw,48px)}
 @media(max-width:940px){
   .stage{padding-left:0;padding-right:0}
   .scene-col{position:sticky;top:56px;padding-top:0;z-index:20;
@@ -868,6 +870,7 @@ const CONFIG = {
   botUrl: 'https://t.me/ps_ai_sales_bot',
   siteUrl: 'https://park-sovinon.ua',
   ppm: { build: 960, ready: 990 },        // у.о. за м²
+  adsConversion: '',             // 'AW-16475671325/LABEL' — коли підключимо Google Ads
   crm: {
     enabled: false,              // ⚠️ ПРОТОТИП: true — і заявки підуть у бойову CRM
     url: 'https://crm.g-plus.app/api/actions',
@@ -948,13 +951,23 @@ const params=new URLSearchParams(location.search), DEBUG=params.get('debug')==='
 /* ── Аналітика ───────────────────────────────────────────── */
 const EVENTS=[]; const T0=Date.now();
 function track(name,p){
-  const e={t:Date.now()-T0,name,p:p||{}};
+  const e={t:Date.now()-T0,name,p:Object.assign({ms_total:Date.now()-T0, step_current:step+1, answered:Object.keys(ans).filter(k=>k!=='way').length}, p||{})};
   EVENTS.push(e);
   window.dataLayer=window.dataLayer||[]; window.dataLayer.push(Object.assign({event:name},e.p));
   if(typeof gtag==='function') gtag('event',name,e.p);
   if(DEBUG) renderDbg();
   console.log('[quiz]',name,e.p);
 }
+
+/* ── Обрив: фіксуємо, на якому питанні пішли ─────────────── */
+let sentAbandon=false, doneOk=false;
+function abandon(){
+  if(sentAbandon||doneOk||!started) return; sentAbandon=true;
+  const q=step<Q.length?Q[step].id:'contact';
+  track('quiz_abandon',{step:step+1,question:q,ms_on_step:Date.now()-stepAt});
+}
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden') abandon(); });
+window.addEventListener('pagehide',abandon);
 
 /* ── UTM ─────────────────────────────────────────────────── */
 const UTM={};
@@ -1215,19 +1228,32 @@ function submit(e){
   }
   const btn=document.getElementById('send'); btn.disabled=true; btn.textContent='Надсилаємо…';
   const note=buildNote(name.value.trim());
+  doneOk=true;
   track('quiz_submit',{way:ans.way,rooms:ans.flat,stage:ans.stage});
-  if(typeof fbq==='function') fbq('track','Lead',{content_name:'quiz'});
-  if(CONFIG.crm.enabled){
-    fetch(CONFIG.crm.url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:new URLSearchParams({action:'partner-custom-form',token:CONFIG.crm.token,partner_id:CONFIG.crm.partnerId,
-        name:name.value.trim(),phone:'+'+digits,lang:'ua',note:note,adv_id:'quiz'}).toString()}).catch(()=>{});
-  } else { console.log('[quiz] CRM вимкнено (прототип). Note:\n'+note); }
+  sendLead(name.value.trim(),'+'+digits,note).then(ok=>{ if(ok) fireConversions(); else track('quiz_crm_fail',{}); });
   // Якщо квіз відкритий у вікні лендингу — віддаємо лід батьківській сторінці,
   // щоб він пішов у CRM її робочим шляхом і був помічений як лід лендингу.
   try{ if(window.parent && window.parent!==window){
     window.parent.postMessage({type:'ps-quiz-lead',name:name.value.trim(),phone:'+'+digits,note:note},'*'); } }catch(e){}
   localStorage.removeItem(KEY);
   renderDone(name.value.trim());
+}
+
+/* Відправка в CRM. true — лише коли картку справді створено:
+   проксі (Apps Script/сервер) має віддати 200 і тіло, що не починається з 'error'. */
+function sendLead(name,phone,note){
+  if(!CONFIG.crm.enabled){ console.log('[quiz] CRM вимкнено (прототип). Note:\n'+note); return Promise.resolve(false); }
+  return fetch(CONFIG.crm.url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:new URLSearchParams({action:'partner-custom-form',token:CONFIG.crm.token,partner_id:CONFIG.crm.partnerId,
+      name:name,phone:phone,lang:'ua',note:note,adv_id:'quiz'}).toString()})
+    .then(r=>r.ok?r.text().then(t=>!/^\s*error/i.test(t)):false)
+    .catch(()=>false);
+}
+/* Конверсії — тільки після підтвердженої картки, щоб не повторити фейковий Lead з /kontaktyi.html */
+function fireConversions(){
+  track('quiz_lead_confirmed',{});
+  if(typeof fbq==='function') fbq('track','Lead',{content_name:'quiz'});
+  if(typeof gtag==='function' && CONFIG.adsConversion) gtag('event','conversion',{send_to:CONFIG.adsConversion});
 }
 
 function buildNote(name){
