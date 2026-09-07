@@ -81,6 +81,7 @@ input{caret-color:var(--olive-d)}
 /* Скрол не має «пробивати» в сторінку-господаря: у мобільному Chrome дотяг до кінця
    списку починав крутити лендинг замість квіза. */
 .is-embed,.is-embed body{overscroll-behavior-y:contain}
+.is-embed body{min-height:0}
 /* Панель на телефоні — 360×500 і менше. Замір: документ 686 px проти 500 видимих,
    з них 186 px забирала сцена. Тут вона вужча, а крок щільніший, щоб питання
    з п'ятьма варіантами вміщалось без прокрутки. */
@@ -1144,7 +1145,7 @@ function render(){
   if(step<Q.length) renderQ(Q[step]);
   else if(step===Q.length) renderContact();
   stepAt=Date.now();
-  paint(); renderWish();
+  paint(); renderWish(); reportHeight();
   if(step>0) window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1256,7 +1257,7 @@ function submit(e){
   try{ if(window.parent && window.parent!==window){
     window.parent.postMessage({type:'ps-quiz-lead',name:name.value.trim(),phone:'+'+digits,note:note},'*'); } }catch(e){}
   localStorage.removeItem(KEY);
-  renderDone(name.value.trim());
+  renderDone(name.value.trim()); reportHeight();
 }
 
 /* Відправка в CRM. true — лише коли картку справді створено:
@@ -1349,8 +1350,31 @@ function fitScene(){
 }
 mqNarrow.addEventListener('change',()=>{placeWish();fitScene();});
 
+/* ── Висота для батьківського вікна ──────────────────────────
+   Панель лендингу не може виміряти вміст крізь cross-origin iframe,
+   тому висоту шлемо самі — інакше вона або обрізає форму, або лишає
+   під кнопкою порожню білу площу. */
+let hSent=0,hPend=0;
+function reportHeight(){
+  if(!document.documentElement.classList.contains('is-embed')) return;
+  if(hPend) return;                       // один замір на такт
+  // setTimeout, а не requestAnimationFrame: rAF не виконується, поки вкладка у фоні,
+  // і панель лишалась би без висоти
+  hPend=setTimeout(()=>{hPend=0;
+    const st=document.querySelector('.stage'); if(!st) return;
+    const h=Math.ceil(st.getBoundingClientRect().bottom + window.scrollY + 8);
+    if(Math.abs(h-hSent)<2) return;       // без луни на власну зміну розміру
+    hSent=h;
+    try{parent.postMessage({type:'ps-quiz-height',h},'*');}catch(e){}});
+}
+if(document.documentElement.classList.contains('is-embed')){
+  addEventListener('load',reportHeight);
+  addEventListener('resize',reportHeight);
+  if(window.ResizeObserver) new ResizeObserver(reportHeight).observe(document.body);
+}
+
 /* ── Старт ───────────────────────────────────────────────── */
-placeWish(); fitScene(); restore(); render(); if(DEBUG) renderDbg();
+placeWish(); fitScene(); restore(); render(); if(DEBUG) renderDbg(); reportHeight();
 </script>
 </body>
 </html>
