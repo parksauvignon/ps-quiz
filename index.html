@@ -78,6 +78,26 @@ input{caret-color:var(--olive-d)}
 .is-embed .prog{top:0}
 .is-embed .hint{display:none}
 .is-embed .wish{padding-top:0}
+/* Скрол не має «пробивати» в сторінку-господаря: у мобільному Chrome дотяг до кінця
+   списку починав крутити лендинг замість квіза. */
+.is-embed,.is-embed body{overscroll-behavior-y:contain}
+/* Панель на телефоні — 360×500 і менше. Замір: документ 686 px проти 500 видимих,
+   з них 186 px забирала сцена. Тут вона вужча, а крок щільніший, щоб питання
+   з п'ятьма варіантами вміщалось без прокрутки. */
+@media(max-width:620px){
+  .is-embed .stage{padding-bottom:10px}
+  .is-embed .scene-wrap{max-width:60%;margin:0 auto}
+  .is-embed .ask-col{padding-top:4px}
+  .is-embed .q{margin-top:4px;font-size:19px}
+  .is-embed .sub{margin-top:4px;font-size:13px}
+  .is-embed .opts{margin-top:10px;gap:5px}
+  .is-embed .opt{padding:9px 13px;gap:9px;font-size:14px;border-radius:11px}
+  .is-embed .opt__box{width:18px;height:18px;border-radius:6px}
+  .is-embed .opt__box svg{width:18px;height:18px}
+  .is-embed .nav{margin-top:12px;gap:10px}
+  .is-embed .btn{padding:12px 22px}
+  .is-embed .step-head{min-height:18px}
+}
 .hdr__in{display:flex;align-items:center;gap:16px;max-width:1240px;margin:0 auto;padding:12px clamp(16px,3vw,32px)}
 .hdr__logo img{height:30px;width:auto}
 @media(min-width:941px){:root{--hdr-h:85px}.hdr__logo img{height:60px}}
