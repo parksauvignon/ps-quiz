@@ -12,6 +12,33 @@
 <meta property="og:title" content="Підберемо квартиру в «Парк Совіньйон» за 7 питань">
 <meta property="og:description" content="Малоповерховий комплекс у власному парку біля моря. Відповідайте — надішлемо підбірку з цінами.">
 <meta property="og:locale" content="uk_UA">
+<!-- ══ Аналітика ══
+     Вмикається на домені park-sovinon.ua; на прев'ю — лише з ?tags=1,
+     щоб тестові проходи не потрапляли в бойову статистику.
+     GA4 G-16SS3NC02D — той самий ресурс, що й основний сайт (property 355498697).
+     Meta Pixel 3145327359033923 — кабінет «Парк Совіньйон».
+     ⚠️ Якщо сторінку підключать до спільного шаблону сайту з GTM-WD8V8BS —
+     прибрати ці теги, щоб не задвоїти page_view. -->
+<script>
+(function(){
+  var qs=new URLSearchParams(location.search);
+  window.PS_TAGS = /(^|\.)park-sovinon\.ua$/i.test(location.hostname) || qs.has('tags');
+  if(!window.PS_TAGS) return;
+  window.dataLayer=window.dataLayer||[];
+  window.gtag=function(){dataLayer.push(arguments)};
+  gtag('js',new Date());
+  gtag('config','G-16SS3NC02D');
+  var g=document.createElement('script'); g.async=true;
+  g.src='https://www.googletagmanager.com/gtag/js?id=G-16SS3NC02D';
+  document.head.appendChild(g);
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','3145327359033923'); fbq('track','PageView');
+})();
+</script>
+<!-- Токен CRM: файл лежить лише на сервері, у репозиторії його немає -->
+<script src="crm-token.js" onerror="console.warn('[quiz] crm-token.js відсутній — CRM вимкнена')"></script>
 <link rel="preload" href="fonts/ProbaPro-Medium.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/ProbaPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -346,7 +373,7 @@ input{caret-color:var(--olive-d)}
     </a>
     <div class="hdr__meta">
       <span class="hdr__time" id="eta">7 питань · близько хвилини</span>
-      <a class="hdr__tel" href="tel:+380675550000" onclick="track('phone_click',{place:'header'})">
+      <a class="hdr__tel" id="tel" href="tel:+380671117766" onclick="track('phone_click',{place:'header'})">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.4 1.8.6 2.8.8a2 2 0 0 1 1.7 2z"/></svg>
         Зателефонувати
       </a>
@@ -887,15 +914,17 @@ input{caret-color:var(--olive-d)}
    CONFIG — усе, що змінює відділ маркетингу, лежить тут.
    ════════════════════════════════════════════════════════════ */
 const CONFIG = {
-  phone: '+380675550000',        // ПІДСТАВИТИ робочий номер відділу продажу
+  phone: '+380 (67) 111-77-66',  // мобільний відділу продажу
   botUrl: 'https://t.me/ps_ai_sales_bot',
   siteUrl: 'https://park-sovinon.ua',
   ppm: { build: 960, ready: 990 },        // у.о. за м²
   adsConversion: '',             // 'AW-16475671325/LABEL' — коли підключимо Google Ads
   crm: {
-    enabled: false,              // ⚠️ ПРОТОТИП: true — і заявки підуть у бойову CRM
+    // Бойовий домен — завжди; на прев'ю — лише з ?crm=1, щоб тести не сипались у CRM
+    enabled: /(^|\.)park-sovinon\.ua$/i.test(location.hostname) || new URLSearchParams(location.search).has('crm'),
     url: 'https://crm.g-plus.app/api/actions',
-    token: '',                   // тримати на проксі, не в HTML
+    // Токен лежить у crm-token.js поруч (у git не потрапляє — див. crm-token.sample.js)
+    token: window.PS_CRM_TOKEN || '',
     partnerId: 21980
   }
 };
@@ -1263,12 +1292,14 @@ function submit(e){
 /* Відправка в CRM. true — лише коли картку справді створено:
    проксі (Apps Script/сервер) має віддати 200 і тіло, що не починається з 'error'. */
 function sendLead(name,phone,note){
-  if(!CONFIG.crm.enabled){ console.log('[quiz] CRM вимкнено (прототип). Note:\n'+note); return Promise.resolve(false); }
+  if(!CONFIG.crm.enabled){ console.log('[quiz] CRM вимкнено (прев\'ю). Note:\n'+note); return Promise.resolve(false); }
+  if(!CONFIG.crm.token){ console.error('[quiz] CRM: не вписано токен — лід не піде!'); track('quiz_crm_no_token',{}); return Promise.resolve(false); }
   return fetch(CONFIG.crm.url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
     body:new URLSearchParams({action:'partner-custom-form',token:CONFIG.crm.token,partner_id:CONFIG.crm.partnerId,
       name:name,phone:phone,lang:'ua',note:note,adv_id:'quiz'}).toString()})
-    .then(r=>r.ok?r.text().then(t=>!/^\s*error/i.test(t)):false)
-    .catch(()=>false);
+    .then(r=>r.json())
+    .then(d=>{ if(!(d&&d.success)) console.error('[quiz] CRM відмовила:',d); return !!(d&&d.success); })
+    .catch(e=>{ console.error('[quiz] CRM недоступна:',e); return false; });
 }
 /* Конверсії — тільки після підтвердженої картки, щоб не повторити фейковий Lead з /kontaktyi.html */
 function fireConversions(){
@@ -1374,6 +1405,7 @@ if(document.documentElement.classList.contains('is-embed')){
 }
 
 /* ── Старт ───────────────────────────────────────────────── */
+document.getElementById('tel').href='tel:'+CONFIG.phone.replace(/[^\d+]/g,'');
 placeWish(); fitScene(); restore(); render(); if(DEBUG) renderDbg(); reportHeight();
 </script>
 </body>
