@@ -920,7 +920,6 @@ input{caret-color:var(--olive-d)}
    ════════════════════════════════════════════════════════════ */
 const CONFIG = {
   phone: '+380 (67) 111-77-66',  // мобільний відділу продажу
-  botUrl: 'https://t.me/ps_ai_sales_bot',
   siteUrl: 'https://park-sovinon.ua',
   ppm: { build: 960, ready: 990 },        // у.о. за м²
   adsConversion: '',             // 'AW-16475671325/LABEL' — коли підключимо Google Ads
@@ -1336,8 +1335,7 @@ function renderDone(name){ /* ім'я не вставляємо в зверта�
       <div><span>2</span><p>Якщо захочете подивитись наживо — покажемо квартиру у зручний для вас день.</p></div>
     </div>
     <div class="nav">
-      <a class="btn -olive" href="${CONFIG.botUrl}" target="_blank" rel="noopener" onclick="track('bot_click',{})">Поставити питання боту<i class="arr"></i></a>
-      <a class="btn -line" href="${CONFIG.siteUrl}" target="_blank" rel="noopener" onclick="track('site_click',{})">Подивитись комплекс</a>
+      <a class="btn -olive" href="${CONFIG.siteUrl}" target="_blank" rel="noopener" onclick="track('site_click',{})">Подивитись комплекс<i class="arr"></i></a>
     </div>`;
   S.stage='ready'; paint();
   track('quiz_done',{});
